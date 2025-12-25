@@ -1,38 +1,50 @@
 const express = require("express");
-const { adminAuth, userAuth } = require("./middlewares/auth");
-
 const app = express();
 
-// “In Express, app.use is for middleware with prefix matching, while app.all is for defining a route that handles all HTTP methods with exact matching.”
-
-// Authentication -> Checking Identity
-// Authorization -> Checking Permission
-
-// Authorization Middleware
-app.use("/Admin", adminAuth);
-
-app.post("/user/login", (req, res) => {
-    res.send("Login Form");
+app.use("/", (err,req, res, next) => {
+    console.log("first");  // this only inwokes when error thrown or next(err)
+    // so dont write it on top
 })
 
-app.get("/user/profile", userAuth, (req, res) => {
-    res.send("this is user profile");
+app.get("/user", (req, res, next) => {
+    console.log("second");
+    try {
+        throw new Error("nothing went wrong");
+        res.send("no error");
+    } catch(err) {
+        res.send(err.message);
+    }
 })
 
-app.get("/Admin/getAllData", (req, res, next) => {
-    // Logic for getting the data from database
-    res.send({
-        user1: "Ritesh Gite",
-        user2: "Mahesh Gite", 
-        user3: "Siddhesh Gite",
-        user4: "Avinash Gawai"
-    })})
+app.get("/getAdminData", (req, res, next) => {
+    try {
+        const adminData = undefined;
 
-app.get("/Admin/deleteUser", (req, res, next) => {
-    // Logic for deleting the user from the database
-    res.send("User is deleted from the database");
-})
+        if (!adminData) {
+            const err = new Error("Admin not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        res.json(adminData);
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.get("/getUserData", async (req, res) => {
+    throw new Error("this is handled by Error handler");
+});
+
+// ✅ Centralized Error Handler (ALWAYS LAST)
+app.use((err, req, res, next) => {
+    const status = err.statusCode || 500;
+    res.status(status).json({
+        status,
+        message: err.message
+    });
+});
 
 app.listen(1023, () => {
     console.log("server is listening");
-})
+});
