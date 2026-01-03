@@ -15,7 +15,7 @@ app.post("/signup", async (req, res) => {
         await user.save();
         res.send("user added successfully");
     } catch(err) {
-        res.status(400).send("Error saving the user : " + err);
+        res.status(400).send(`${err}`);
     }
 })
 
@@ -64,17 +64,28 @@ app.delete("/user", async (req, res) => {
 })
 
 // Update user data
-app.patch("/user", async (req, res) => {
+app.patch("/user/:userId", async (req, res) => {
     const data = req.body;
+    const userId = req.params?.userId;
+
     try {
-        const oldUser = await User.findByIdAndUpdate(data.userId, data, {
+
+        const ALLOWED_UPDATES = [
+            "gender", "age", "photoUrl", "about", "skills"
+        ]
+        const isUpdateAllowed = Object.keys(data).every(k => ALLOWED_UPDATES.includes(k));
+        if (!isUpdateAllowed) {
+            throw new Error("Update Not Allowed");
+        }
+
+        const oldUser = await User.findByIdAndUpdate(userId, data, {
             new:false,
             runValidators: true
         });
         if(!oldUser) {
             res.status(404).send("User Not Found");
         } else {
-            const newUser = await User.findById(data.userId);
+            const newUser = await User.findById(userId);
             res.json({
                 message: "User Updated Successfully",
                 before: oldUser,
@@ -82,7 +93,7 @@ app.patch("/user", async (req, res) => {
             })
         }
     } catch (err) {
-        res.status(500).send("Error: " + err);
+        res.status(400).send(`${err}`);
     }
 })
 

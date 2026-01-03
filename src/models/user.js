@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const userSchema = mongoose.Schema({
     firstName: {
@@ -18,10 +19,24 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
+        // validate: {
+        //     validator: email => validator.isEmail(email),
+        //     message: "Invalid Email!"
+        // }
+        validate(email) {
+            if(!validator.isEmail(email)) {
+                throw new Error("Email is not Valid");
+            }
+        }
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        validate(pass) {
+            if(!validator.isStrongPassword(pass)) {
+                throw new Error("Enter Strong Password");
+            }
+        }
     },
     gender: {
         type: String,
@@ -41,7 +56,11 @@ const userSchema = mongoose.Schema({
     },
     photoUrl: {
         type: String,
-        default: "https://imgs.search.brave.com/PixY8_zgl8cU1m2y47bf0V-2jOluOmEHOR4564ScsUA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzY0LzY3LzI3/LzM2MF9GXzY0Njcy/NzM2X1U1a3BkR3M5/a2VVbGw4Q1JRM3Az/WWFFdjJNNnFrVlk1/LmpwZw"
+        default: "https://imgs.search.brave.com/PixY8_zgl8cU1m2y47bf0V-2jOluOmEHOR4564ScsUA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzY0LzY3LzI3/LzM2MF9GXzY0Njcy/NzM2X1U1a3BkR3M5/a2VVbGw4Q1JRM3Az/WWFFdjJNNnFrVlk1/LmpwZw",
+        validate: {
+            validator: url => validator.isURL(url),
+            message: "Invalid Photo URL"
+        }
     },
     about: {
         type: String,
