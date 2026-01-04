@@ -4,14 +4,16 @@ const validator = require("validator");
 const userSchema = mongoose.Schema({
     firstName: {
         type: String,
-        required: true,
-        minLength: 3,
-        maxLength: 20
+        required: [true, "First Name Required"],
+        minLength: [3, "First name must be atleast 3 characters"],
+        maxLength: [20, "First name must be less than 20 characters"],
+        trim: true
     },
     lastName: {
         type: String,
         minLength: 3,
-        maxLength: 20
+        maxLength: 20,
+        trim: true
     },
     emailId: {
         type: String,
@@ -19,24 +21,15 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
-        // validate: {
-        //     validator: email => validator.isEmail(email),
-        //     message: "Invalid Email!"
-        // }
         validate(email) {
             if(!validator.isEmail(email)) {
-                throw new Error("Email is not Valid");
+                throw new Error("Invalid Email");
             }
         }
     },
     password: {
         type: String,
         required: true,
-        validate(pass) {
-            if(!validator.isStrongPassword(pass)) {
-                throw new Error("Enter Strong Password");
-            }
-        }
     },
     gender: {
         type: String,
