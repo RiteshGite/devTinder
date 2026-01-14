@@ -23,7 +23,6 @@ const userAuth = async (req, res, next) => {
         }
 
         req.user = user;
-        console.log("next is defined");
         next();
     } catch (err) {
         next(err);

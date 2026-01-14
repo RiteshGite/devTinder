@@ -6,7 +6,7 @@ const errorHandler = (err, req, res, next) => {
             success: false,
             errors: Object.values(err.errors).map(e => e.message)
         });
-    }
+    } 
 
     // Mongo duplicate key
     if (err.code === 11000) {

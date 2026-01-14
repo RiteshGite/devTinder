@@ -66,7 +66,6 @@ requestRouter.post(
                 ? `${req.user?.firstName} interested in ${toUserExists.firstName}'s profile` 
                 : `${req.user?.firstName} ignored ${toUserExists.firstName}'s profile`
 
-            console.log("I am here");
             res.status(201).json({
                 success: true,
                 message: action(status),
@@ -77,5 +76,45 @@ requestRouter.post(
         }
     }
 );
+
+requestRouter.post(
+    "/request/review/:status/:requestId", 
+    userAuth, 
+    async (req, res, next) => {
+        const loggedInUserId = req.user?._id;
+        const { status, requestId } = req.params;
+
+        try {
+            const allowedStatus = ["accepted", "rejected"];
+            if(!allowedStatus.includes(status)) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid Status type : " + status
+                });
+            }
+            const connectionRequest = await ConnectionRequest.findOne({
+                _id: requestId,
+                toUserId: loggedInUserId,
+                status: "interested"
+            })
+            if(!connectionRequest) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid request"
+                })
+            }
+            connectionRequest.status = status;
+            await connectionRequest.save();
+
+            res.status(200).json({
+                success: true,
+                message: `Connection request ${status}`,
+                data: connectionRequest
+            })
+            
+        } catch (err) {
+            next(err);
+        }
+})
 
 module.exports = requestRouter;
