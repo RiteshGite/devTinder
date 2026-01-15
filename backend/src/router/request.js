@@ -13,7 +13,6 @@ requestRouter.post(
             const { status, toUserId } = req.params;
             const fromUserId = req.user._id;
             
-            // 1️⃣ Prevent self request
             if (fromUserId.toString() === toUserId) {
                 return res.status(400).json({
                     success: false,
@@ -21,7 +20,6 @@ requestRouter.post(
                 });
             }
 
-            // 2️⃣ Validate status
             const allowedStatus = ["interested", "ignored"];
             if (!allowedStatus.includes(status)) {
                 return res.status(400).json({
@@ -30,7 +28,6 @@ requestRouter.post(
                 });
             }
 
-            // 3️⃣ Check if target user exists
             const toUserExists = await User.findById(toUserId);
             if (!toUserExists) {
                 return res.status(404).json({
@@ -39,7 +36,6 @@ requestRouter.post(
                 });
             }
 
-            // 4️⃣ Check existing requests (both directions)
             const existingRequest = await ConnectionRequest.findOne({
                 $or: [
                     { fromUserId, toUserId },
@@ -54,7 +50,6 @@ requestRouter.post(
                 });
             }
 
-            // 5️⃣ Create request
             const request = await ConnectionRequest.create({
                 fromUserId,
                 toUserId,
