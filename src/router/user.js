@@ -72,9 +72,14 @@ userRouter.get("/user/connections", userAuth, async (req, res, next) => {
     }
 })
 
-userRouter.get("/user/feed", userAuth, async (req, res, next) => {
+userRouter.get("/feed", userAuth, async (req, res, next) => {
     const USER_SAFE_FIELD = "firstName lastName gender age photoUrl about skills";
     try {
+        const page = parseInt(req.query?.page) || 1;
+        let limit = parseInt(req.query?.limit) || 10;
+        limit = limit > 50 ? 50 : limit;
+        const skip = (page - 1) * limit;
+
         const loggedInUserId = req.user?._id;
         const connectionRequests = await ConnectionRequest.find({
             $or: [
@@ -95,7 +100,7 @@ userRouter.get("/user/feed", userAuth, async (req, res, next) => {
                 {_id: {$nin: hideUsersFromFeed } },
                 {_id: {$ne: loggedInUserId } }
             ]
-        }).select(USER_SAFE_FIELD);
+        }).select(USER_SAFE_FIELD).skip(skip).limit(limit);
 
         if(!showUsersInFeed.length) {
             return res.status(200).json({
@@ -113,3 +118,17 @@ userRouter.get("/user/feed", userAuth, async (req, res, next) => {
 })
 
 module.exports = userRouter;
+
+
+
+/*
+page = 1 & limit = 10   skip = 0
+page = 2 & limit = 10   skip = 10
+page = 3 & limit = 10   skip = 20
+
+1-1 * 10 = 0
+2-1 * 10 = 10
+3-1 * 10 = 20 
+
+so, skip = (page -1) * limit
+*/
