@@ -2,7 +2,7 @@ import { User, Users, Inbox, LogOut} from "lucide-react";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 border-b border-base-300 px-6">
+    <div className="navbar bg-base-200 border-b border-base-300 px-6">
       <div className="flex-1">
         <a href="/" className="flex items-center gap-3 cursor-pointer w-fit">
           <div className="avatar">
