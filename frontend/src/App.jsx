@@ -6,7 +6,6 @@ import Login from "./components/Login";
 import Feed from "./components/Feed";
 import Profile from "./components/Profile";
 import Error from "./components/Error";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -14,14 +13,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Body />}>
-            <Route
-              path="login"
-              element={
-                <ProtectedRoute>
-                  <Login />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="login" element={<Login />}/>
             <Route path="feed" element={<Feed />} />
             <Route path="profile" element={<Profile />} />
           </Route>

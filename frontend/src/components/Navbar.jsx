@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-200 border-b border-base-300 px-6">
       <div className="flex-1">
-        <Link to="/" className="flex items-center gap-3 cursor-pointer w-fit">
+        <Link to={user ? "/feed" : "/login"} className="flex items-center gap-3 cursor-pointer w-fit">
           <div className="avatar">
             <div className="ring-primary ring-offset-base-100 w-7 rounded-full ring-2 ring-offset-2">
               <img src="/DevLogo.png" alt="DevTinder Logo" />
