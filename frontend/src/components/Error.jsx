@@ -21,7 +21,7 @@ const Error = () => {
         </p>
 
         <button
-          onClick={() => navigate("/feed")}
+          onClick={() => navigate("/feed", { replace: true })}
           className="px-5 py-2 rounded-md bg-black text-white text-sm hover:bg-gray-800 transition"
         >
           Refresh Page

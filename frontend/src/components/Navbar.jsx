@@ -1,8 +1,9 @@
-import { User, Users, Inbox, LogOut } from "lucide-react";
+import { User, Users, Inbox, LogOut, Home } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../utils/userSlice";
 import { BASE_URL } from "../utils/constants";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 const Navbar = () => {
@@ -18,16 +19,20 @@ const Navbar = () => {
         { withCredentials: true },
       );
       dispatch(removeUser());
-      navigate("/login");
+      toast.success("Logged out successfully");
+      navigate("/login", { replace: true });
     } catch (err) {
-      console.log(err);
+      toast.error(err || "Something went wrong!");
     }
   };
   
   return (
     <div className="navbar bg-base-200 border-b border-base-300 px-6">
       <div className="flex-1">
-        <Link to={user ? "/feed" : "/login"} className="flex items-center gap-3 cursor-pointer w-fit">
+        <Link
+          to={user ? "/feed" : "/login"}
+          className="flex items-center gap-3 cursor-pointer w-fit"
+        >
           <div className="avatar">
             <div className="ring-primary ring-offset-base-100 w-7 rounded-full ring-2 ring-offset-2">
               <img src="/DevLogo.png" alt="DevTinder Logo" />
@@ -64,6 +69,15 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 w-44 rounded-box bg-base-100 shadow"
             >
+              <li>
+                <Link
+                  to="/feed"
+                  className="hover:bg-primary hover:text-primary-content"
+                >
+                  <Home />
+                  Home
+                </Link>
+              </li>
               <li>
                 <Link
                   to="/profile"

@@ -6,16 +6,23 @@ import Login from "./components/Login";
 import Feed from "./components/Feed";
 import Profile from "./components/Profile";
 import Error from "./components/Error";
+import { Toaster } from "react-hot-toast";
+import Connections from "./components/Connections";
+import Requests from "./components/Requests";
+
 
 const App = () => {
   return (
     <Provider store={appStore}>
       <BrowserRouter>
+        <Toaster position="top-center" reverseOrder={false} />
         <Routes>
           <Route path="/" element={<Body />}>
-            <Route path="login" element={<Login />}/>
+            <Route path="login" element={<Login />} />
             <Route path="feed" element={<Feed />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="connections" element={<Connections />} />
+            <Route path="requests" element={<Requests />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>

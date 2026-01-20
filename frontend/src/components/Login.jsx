@@ -1,38 +1,41 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux"; 
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
   const [emailId, setEmail] = useState("hitesh.dev@gmail.com");
   const [password, setPassword] = useState("Dev@12345");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
+  const user = useSelector(store => store.user);
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-  const user = useSelector((store) => store.user);
-  if(user) {
-    return navigate("/feed");
+  if (user) {
+    return <Navigate to="/feed" replace />;
   }
 
   const handleLoginBtn = async () => {
+    setError("");
+
     try {
       const res = await axios.post(
         `${BASE_URL}/login`,
         { emailId, password },
-        { withCredentials: true }
-      ); 
-      dispatch(addUser(res.data?.user));
-      navigate("/feed", { replace: true });
+        { withCredentials: true },
+      );
+      dispatch(addUser(res.data.user));
+      toast.success("Login successful");
     } catch (err) {
-      setError(err.response?.data?.errors || "Something went wrong");
+      setError(err.response?.data?.errors || "Invalid email or password");
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-300 px-4">
@@ -42,6 +45,7 @@ const Login = () => {
             <h2 className="text-3xl font-bold text-center mb-2">
               Welcome Back
             </h2>
+
             <p className="text-center text-base-content/60 mb-4">
               Login to continue your journey
             </p>
@@ -54,8 +58,10 @@ const Login = () => {
                 <input
                   type="email"
                   value={emailId}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError("");
+                  }}
                   className="input input-bordered w-full"
                 />
               </div>
@@ -68,38 +74,24 @@ const Login = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setError("");
+                    }}
                     className="input input-bordered w-full pr-12"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-base-content/60 hover:text-base-content transition"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
               </div>
 
-              {error && (
-                <div role="alert" className="alert alert-warning">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 shrink-0 stroke-current"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                    />
-                  </svg>
-                  <span>{error}</span>
-                </div>
-              )}
+              {error && <p className="text-error text-sm mt-1">{error}</p>}
+
               <button
                 className="btn btn-primary w-full"
                 onClick={handleLoginBtn}
@@ -107,15 +99,6 @@ const Login = () => {
                 Login
               </button>
             </div>
-
-            <div className="divider">OR</div>
-
-            <p className="text-center text-sm">
-              New user?{" "}
-              <button className="link link-primary font-semibold">
-                Sign up
-              </button>
-            </p>
           </div>
         </div>
       </div>
