@@ -13,7 +13,6 @@ const Connections = () => {
   const dispatch = useDispatch();
 
   const fetchConnections = async () => {
-    if (connections) return;
     try {
       const res = await axios.get(`${BASE_URL}/user/connections`, {
         withCredentials: true,
@@ -45,8 +44,8 @@ const Connections = () => {
     );
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md: min-h-screen">
-      <h2 className="text-2xl font-bold mb-4">Connections</h2>
+    <div className="max-w-3xl mx-auto p-4 md: min-h-screen mb-20">
+      <h2 className="text-2xl font-bold mb-4 text-center">Connections</h2>
 
       <div className="space-y-4">
         {connections.map((connection) => (
