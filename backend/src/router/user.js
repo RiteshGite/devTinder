@@ -18,8 +18,8 @@ userRouter.get("/user/requests/received", userAuth, async (req, res, next) => {
         );
 
         if (!connectionRequests.length) {
-            return res.status(400).json({
-                success: false,
+            return res.status(200).json({
+                success: true,
                 message: "No connection Requests"
             })
         }

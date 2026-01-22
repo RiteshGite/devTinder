@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addConnections } from "../utils/connectionsSlice";
+import { addConnections } from "../utils/connections";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -18,8 +18,7 @@ const Connections = () => {
       const res = await axios.get(`${BASE_URL}/user/connections`, {
         withCredentials: true,
       });
-      console.log(res.data.connections);
-      dispatch(addConnections(res?.data?.connections || []));
+      dispatch(addConnections(res?.data?.connections || null));
       setLoading(false);
     } catch (err) {
       navigate("/error");
@@ -35,6 +34,13 @@ const Connections = () => {
     return (
       <div className="flex justify-center mt-10">
         <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+
+  if (!connections)
+    return (
+      <div className="flex justify-center items-center font-bold p-24">
+        <h4>No Connections</h4>
       </div>
     );
 
