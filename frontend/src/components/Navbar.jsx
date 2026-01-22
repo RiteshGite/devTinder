@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { removeFeed } from "../utils/feedSlice";
 import { removeConnections } from "../utils/connections";
+import { removeRequests } from "../utils/requests";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
@@ -23,6 +24,7 @@ const Navbar = () => {
       dispatch(removeUser());
       dispatch(removeFeed());
       dispatch(removeConnections());
+      dispatch(removeRequests())
       toast.success("Logged out successfully");
       navigate("/login", { replace: true });
     } catch (err) {

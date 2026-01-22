@@ -1,7 +1,17 @@
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { removeFromFeed } from "../utils/feedSlice";
+
 const UserCard = ({ user }) => {
+
+  const dispatch = useDispatch();
+
   if (!user) return null;
 
   const {
+    _id,
     firstName,
     lastName,
     age,
@@ -10,6 +20,19 @@ const UserCard = ({ user }) => {
     photoUrl,
     skills = [],
   } = user;
+
+  const handleButtonClick = async (status, _id) => {
+    try {
+      await axios.post(
+        `${BASE_URL}/request/send/${status}/${_id}`,
+        {},
+        { withCredentials: true },
+      );
+      dispatch(removeFromFeed(_id));
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
+  }
 
   return (
     <div className="card w-80 bg-base-100 shadow-xl">
@@ -48,8 +71,22 @@ const UserCard = ({ user }) => {
 
         {/* Actions */}
         <div className="card-actions justify-between pt-4">
-          <button className="btn btn-error btn-sm">Ignore</button>
-          <button className="btn btn-primary btn-sm">Interested</button>
+          <button
+            className="btn btn-error btn-sm"
+            onClick={() => {
+              handleButtonClick("ignored", _id);
+            }}
+          >
+            Ignore
+          </button>
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={() => {
+              handleButtonClick("interested", _id);
+            }}
+          >
+            Interested
+          </button>
         </div>
       </div>
     </div>

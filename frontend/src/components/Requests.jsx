@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests, removeRequests } from "../utils/requests";
+import { addRequests, removeFromRequests } from "../utils/requests";
 import { BASE_URL } from "../utils/constants";
 import toast from "react-hot-toast";
 
@@ -15,7 +15,7 @@ const Requests = () => {
     try {
       const res = await axios.post(`${BASE_URL}/request/review/${status}/${id}`, {}, { withCredentials: true });
       console.log(res);
-      dispatch(removeRequests(id));
+      dispatch(removeFromRequests(id));
     } catch (err) {
       console.log(err);
       toast.error("Something went wrong");

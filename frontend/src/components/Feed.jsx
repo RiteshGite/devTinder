@@ -12,18 +12,13 @@ const Feed = () => {
   const feed = useSelector((store) => store.feed);
   const dispatch = useDispatch();
 
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   
   const getFeed = async () => {
     try {
       if(feed) return;
       const res = await axios.get(`${BASE_URL}/feed`, { withCredentials: true });
-      if (res.data.message === "No Users Found") {
-        setError("You have seen all the Developers")
-      } else {
-        dispatch(addFeed(res.data?.feed)); 
-      }
+      dispatch(addFeed(res.data?.feed || null)); 
       setLoading(false);
     } catch (err) {
       if(err) {
@@ -41,9 +36,15 @@ const Feed = () => {
     </div>
   );
 
-  return error ? (
-    <div className="">{error}</div>
-  ) : (
+  if(!feed || !feed.length) {
+    return (
+      <div className="p-16 flex justify-center items-center">
+        <h2 className="text-bold text-2xl">No new users found</h2>
+      </div>
+    );
+  }
+
+  return (
     <div className="flex justify-center md: py-24">
       <UserCard user={feed[0]} />
     </div>
