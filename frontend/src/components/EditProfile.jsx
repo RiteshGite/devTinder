@@ -51,7 +51,7 @@ const EditProfile = ({ user }) => {
         { firstName, lastName, age, photoUrl, about, gender, skills },
         { withCredentials: true });
       dispatch(addUser(res?.data?.after));
-      toast.success(res.data.message);
+      toast.success(res?.data?.message);
     } catch (err) {
       console.log(err);
       toast.error(err?.response?.data?.errors || err?.data?.message || "Something went wrong");

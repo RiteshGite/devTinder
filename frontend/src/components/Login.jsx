@@ -1,29 +1,27 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { BASE_URL } from "../utils/constants";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux"; 
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [emailId, setEmail] = useState("hitesh.dev@gmail.com");
-  const [password, setPassword] = useState("Dev@12345");
+  const [emailId, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isSignUpForm, setSignUpForm] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  if (user) {
-    return <Navigate to="/feed" replace />;
-  }
 
   const handleLoginBtn = async () => {
     setError("");
-
     try {
       const res = await axios.post(
         `${BASE_URL}/login`,
@@ -32,8 +30,25 @@ const Login = () => {
       );
       dispatch(addUser(res.data.user));
       toast.success("Login successful");
+      navigate("/feed");
     } catch (err) {
       setError(err.response?.data?.errors || "Invalid email or password");
+    }
+  };
+
+  const handleSignUpBtn = async () => {
+    setError("");
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/signup`,
+        { firstName, lastName, emailId, password },
+        { withCredentials: true },
+      );
+      dispatch(addUser(res.data.user));
+      toast.success("Registration successful");
+      navigate("/profile");
+    } catch (err) {
+      setError(err.response?.data?.errors || "Invalid Data Filled");
     }
   };
 
@@ -41,63 +56,101 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-base-300 px-4">
       <div className="w-full max-w-md">
         <div className="card bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="text-3xl font-bold text-center mb-2">
-              Welcome Back
-            </h2>
+          <div className="card-body gap-4">
+            {/* Heading */}
+            <div className="text-center">
+              <h2 className="text-3xl font-bold">
+                {isSignUpForm ? "Create Account" : "Welcome Back"}
+              </h2>
+              <p className="text-base-content/60 mt-1">
+                {isSignUpForm
+                  ? "Join DevTinder and start connecting"
+                  : "Login to continue your journey"}
+              </p>
+            </div>
 
-            <p className="text-center text-base-content/60 mb-4">
-              Login to continue your journey
-            </p>
-
-            <div className="space-y-4">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Email</span>
-                </label>
-                <input
-                  type="email"
-                  value={emailId}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    setError("");
-                  }}
-                  className="input input-bordered w-full"
-                />
-              </div>
-
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Password</span>
-                </label>
-                <div className="relative">
+            {/* Form */}
+            <div className="space-y-3">
+              {isSignUpForm && (
+                <>
                   <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      setError("");
-                    }}
-                    className="input input-bordered w-full pr-12"
+                    type="text"
+                    placeholder="First name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="input input-bordered w-full"
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
+                  <input
+                    type="text"
+                    placeholder="Last name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="input input-bordered w-full"
+                  />
+                </>
+              )}
+
+              <input
+                type="email"
+                placeholder="Email"
+                value={emailId}
+                onChange={(e) => setEmail(e.target.value)}
+                className="input input-bordered w-full"
+              />
+
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="input input-bordered w-full pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-base-content/60"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
 
-              {error && <p className="text-error text-sm mt-1">{error}</p>}
+              {error && (
+                <p className="text-error text-sm text-center">{error}</p>
+              )}
 
+              {/* Primary Button */}
               <button
-                className="btn btn-primary w-full"
-                onClick={handleLoginBtn}
+                onClick={!isSignUpForm ? handleLoginBtn : handleSignUpBtn}
+                className="btn btn-primary w-full mt-2"
               >
-                Login
+                {isSignUpForm ? "Sign Up" : "Login"}
               </button>
+            </div>
+
+            {/* Switch */}
+            <div className="text-center text-sm text-base-content/60 mt-2">
+              {!isSignUpForm ? (
+                <>
+                  New user?
+                  <button
+                    onClick={() => setSignUpForm(true)}
+                    className="ml-1 font-semibold text-primary hover:underline"
+                  >
+                    Create an account
+                  </button>
+                </>
+              ) : (
+                <>
+                  Already registered?
+                  <button
+                    onClick={() => setSignUpForm(false)}
+                    className="ml-1 font-semibold text-primary hover:underline"
+                  >
+                    Log in
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
