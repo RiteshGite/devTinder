@@ -1,8 +1,10 @@
+require('dotenv').config()
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const { connectDb } = require("./config/db");
 const errorHandler = require("./middlewares/errorHandler");
-require('dotenv').config()
+
 
 const authRouter = require("./router/auth");
 const profileRouter = require("./router/profile");
@@ -28,6 +30,8 @@ app.use(errorHandler);
 
 connectDb()
     .then(() => {
-        app.listen(process.env.PORT || "7777");
+        app.listen(process.env.PORT || "7777", () => {
+            console.log(`Server is listening on port ${process.env.PORT || "7777"}`);
+        });
     })
     .catch((err) => { });
