@@ -10,18 +10,17 @@ import Footer from "./Footer";
 const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
 
   const fetchUser = async () => {
     try {
-      if(user) return;
+      if (user) return;
       const res = await axios.get(`${BASE_URL}/profile/view`, {
         withCredentials: true,
       });
       dispatch(addUser(res.data.user));
-
-    } catch(err) {
-      if(err.status === 401) {
+    } catch (err) {
+      if (err.status === 401) {
         navigate("/login", { replace: true });
       } else {
         navigate("/Error");
@@ -37,7 +36,7 @@ const Body = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-14">
         <Outlet />
       </main>
 

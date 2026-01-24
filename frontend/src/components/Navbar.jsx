@@ -16,24 +16,20 @@ const Navbar = () => {
 
   const handleLogOut = async () => {
     try {
-      await axios.post(
-        BASE_URL + "/logout",
-        {},
-        { withCredentials: true },
-      );
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
       dispatch(removeUser());
       dispatch(removeFeed());
       dispatch(removeConnections());
-      dispatch(removeRequests())
+      dispatch(removeRequests());
       toast.success("Logged out successfully");
       navigate("/login", { replace: true });
     } catch (err) {
       toast.error(err || "Something went wrong!");
     }
   };
-  
+
   return (
-    <div className="navbar bg-base-200 border-b border-base-300 px-6">
+    <div className="navbar bg-base-200 border-b border-base-300 px-6 fixed z-1000">
       <div className="flex-1">
         <Link
           to={user ? "/feed" : "/login"}

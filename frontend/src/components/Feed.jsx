@@ -5,38 +5,40 @@ import { addFeed } from "../utils/feedSlice";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Shimmer from "./Simmer";
-import UserCard from "./UserCard"
+import UserCard from "./UserCard";
 
 const Feed = () => {
-
   const feed = useSelector((store) => store.feed);
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
-  
+
   const getFeed = async () => {
     try {
-      if(feed) return;
-      const res = await axios.get(`${BASE_URL}/feed`, { withCredentials: true });
-      dispatch(addFeed(res.data?.feed || null)); 
+      if (feed) return;
+      const res = await axios.get(`${BASE_URL}/feed`, {
+        withCredentials: true,
+      });
+      dispatch(addFeed(res.data?.feed || null));
       setLoading(false);
     } catch (err) {
-      if(err) {
+      if (err) {
         return <Navigate to="/error" />;
       }
     }
-  }
+  };
   useEffect(() => {
     getFeed();
   }, []);
 
-  if(loading && !feed) return (
-    <div className="p-16 flex justify-center items-center">
-      <Shimmer count={1}/>
-    </div>
-  );
+  if (loading && !feed)
+    return (
+      <div className="p-16 flex justify-center items-center">
+        <Shimmer count={1} />
+      </div>
+    );
 
-  if(!feed || !feed.length) {
+  if (!feed || !feed.length) {
     return (
       <div className="p-16 flex justify-center items-center">
         <h2 className="text-bold text-2xl">No new users found</h2>
@@ -49,7 +51,6 @@ const Feed = () => {
       <UserCard user={feed[0]} />
     </div>
   );
-
-}
+};
 
 export default Feed;

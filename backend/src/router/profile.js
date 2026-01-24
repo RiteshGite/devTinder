@@ -28,7 +28,7 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res, next) => {
         Object.keys(req.body).forEach(field => {
             loggedInUser[field] = req.body[field];
         })
- 
+
         await loggedInUser.save();
 
         res.status(200).json({
@@ -45,7 +45,7 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res, next) => {
 profileRouter.patch("/profile/password", userAuth, async (req, res, next) => {
     try {
         const password = req.body?.password;
-        if(!password) {
+        if (!password) {
             throw new Error("password required");
         }
         if (!validator.isStrongPassword(password)) {

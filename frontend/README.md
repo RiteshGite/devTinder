@@ -18,6 +18,7 @@
 ## 🛠 Tech Stack
 
 ### Frontend
+
 - React
 - Redux Toolkit
 - React Router
@@ -25,6 +26,7 @@
 - Tailwind CSS / Bootstrap
 
 ### Backend
+
 - Node.js
 - Express.js
 - MongoDB
@@ -79,4 +81,3 @@ Full-stack application architecture
 Ritesh
 Full-Stack Developer (MERN)
 Built with consistency, debugging, and coffee ☕
-

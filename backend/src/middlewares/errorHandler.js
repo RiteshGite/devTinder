@@ -5,8 +5,8 @@ const errorHandler = (err, req, res, next) => {
             success: false,
             errors: Object.values(err.errors).map(e => e.message).toString()
         });
-    } 
-    
+    }
+
     if (err.code === 11000) {
         return res.status(400).json({
             success: false,

@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { removeFromFeed } from "../utils/feedSlice";
 
 const UserCard = ({ user }) => {
-
   const dispatch = useDispatch();
 
   if (!user) return null;
@@ -32,11 +31,10 @@ const UserCard = ({ user }) => {
     } catch (err) {
       toast.error("Something went wrong");
     }
-  }
+  };
 
   return (
     <div className="card w-80 bg-base-100 shadow-xl">
-      {/* Image */}
       <figure className="h-56">
         <img
           src={photoUrl}
@@ -45,21 +43,16 @@ const UserCard = ({ user }) => {
         />
       </figure>
 
-      {/* Body */}
       <div className="card-body">
-        {/* Name */}
         <h2 className="card-title">
           {firstName} {lastName}
           <div className="badge badge-secondary">{age}</div>
         </h2>
 
-        {/* Gender */}
         <p className="text-sm capitalize text-gray-300">{gender}</p>
 
-        {/* About */}
         <p className="text-sm text-gray-300">{about}</p>
 
-        {/* Skills */}
         <div className="flex flex-wrap gap-2 pt-4">
           {Array.isArray(skills) &&
             skills.map((skill, index) => (
@@ -69,7 +62,6 @@ const UserCard = ({ user }) => {
             ))}
         </div>
 
-        {/* Actions */}
         <div className="card-actions justify-between pt-4">
           <button
             className="btn btn-error btn-sm"

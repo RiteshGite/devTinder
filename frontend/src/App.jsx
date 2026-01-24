@@ -10,7 +10,6 @@ import { Toaster } from "react-hot-toast";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 
-
 const App = () => {
   return (
     <Provider store={appStore}>

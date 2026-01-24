@@ -2,6 +2,7 @@ const User = require("../models/user");
 const { validateSignUpData } = require("../utils/validation");
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const { BCRYPT_SALT_ROUNDS } = require("../utils/constants");
 
 const express = require("express");
 const authRouter = express.Router();
@@ -12,7 +13,7 @@ authRouter.post("/signup", async (req, res, next) => {
         validateSignUpData({
             firstName, lastName, emailId, password
         });
-        const passwordHash = await bcrypt.hash(password, 10);
+        const passwordHash = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
         const user = new User({
             firstName,
             lastName,
@@ -31,7 +32,7 @@ authRouter.post("/signup", async (req, res, next) => {
             expires: new Date(Date.now() + 8 * 3600000),
             httpOnly: true
         });
-        
+
         res.status(201).json({
             success: true,
             message: "Registration Successful",

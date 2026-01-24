@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 const Error = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-white px-4">
       <div className="max-w-md text-center">

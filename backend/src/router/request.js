@@ -12,7 +12,7 @@ requestRouter.post(
         try {
             const { status, toUserId } = req.params;
             const fromUserId = req.user._id;
-            
+
             if (fromUserId.toString() === toUserId) {
                 return res.status(400).json({
                     success: false,
@@ -57,9 +57,9 @@ requestRouter.post(
             });
 
             const action = (status) =>
-                status === "interested" 
-                ? `${req.user?.firstName} interested in ${toUserExists.firstName}'s profile` 
-                : `${req.user?.firstName} ignored ${toUserExists.firstName}'s profile`
+                status === "interested"
+                    ? `${req.user?.firstName} interested in ${toUserExists.firstName}'s profile`
+                    : `${req.user?.firstName} ignored ${toUserExists.firstName}'s profile`
 
             res.status(201).json({
                 success: true,
@@ -73,15 +73,15 @@ requestRouter.post(
 );
 
 requestRouter.post(
-    "/request/review/:status/:requestId", 
-    userAuth, 
+    "/request/review/:status/:requestId",
+    userAuth,
     async (req, res, next) => {
         const loggedInUserId = req.user?._id;
         const { status, requestId } = req.params;
 
         try {
             const allowedStatus = ["accepted", "rejected"];
-            if(!allowedStatus.includes(status)) {
+            if (!allowedStatus.includes(status)) {
                 return res.status(400).json({
                     success: false,
                     message: "Invalid Status type : " + status
@@ -92,7 +92,7 @@ requestRouter.post(
                 toUserId: loggedInUserId,
                 status: "interested"
             })
-            if(!connectionRequest) {
+            if (!connectionRequest) {
                 return res.status(400).json({
                     success: false,
                     message: "Invalid request"
@@ -106,10 +106,10 @@ requestRouter.post(
                 message: `Connection request ${status}`,
                 data: connectionRequest
             })
-            
+
         } catch (err) {
             next(err);
         }
-})
+    })
 
 module.exports = requestRouter;

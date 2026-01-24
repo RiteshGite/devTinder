@@ -35,27 +35,27 @@ userRouter.get("/user/requests/received", userAuth, async (req, res, next) => {
 userRouter.get("/user/connections", userAuth, async (req, res, next) => {
     try {
         const loggedInUserId = req.user?._id;
-        
+
         const USER_SAFE_DATA = "firstName lastName gender age photoUrl about skills"
 
         const connections = await ConnectionRequest.find({
             $or: [
-                {fromUserId: loggedInUserId},
-                {toUserId: loggedInUserId},
+                { fromUserId: loggedInUserId },
+                { toUserId: loggedInUserId },
             ],
             status: "accepted"
         })
-        .populate("fromUserId", USER_SAFE_DATA)
-        .populate("toUserId", USER_SAFE_DATA)
+            .populate("fromUserId", USER_SAFE_DATA)
+            .populate("toUserId", USER_SAFE_DATA)
 
-        if(!connections.length) {
+        if (!connections.length) {
             return res.status(200).json({
                 message: "No connections"
             })
         }
 
         const data = connections.map(obj => {
-            if(obj.fromUserId._id.toString() === loggedInUserId.toString()) {
+            if (obj.fromUserId._id.toString() === loggedInUserId.toString()) {
                 return obj.toUserId;
             }
             return obj.fromUserId;
@@ -88,7 +88,7 @@ userRouter.get("/feed", userAuth, async (req, res, next) => {
         }).select("fromUserId toUserId")
 
         const hideUsersFromFeed = connectionRequests.map(obj => {
-            if(obj.fromUserId.toString() === loggedInUserId.toString()) {
+            if (obj.fromUserId.toString() === loggedInUserId.toString()) {
                 return obj.toUserId;
             }
             return obj.fromUserId;
@@ -96,12 +96,12 @@ userRouter.get("/feed", userAuth, async (req, res, next) => {
 
         const showUsersInFeed = await User.find({
             $and: [
-                {_id: {$nin: hideUsersFromFeed } },
-                {_id: {$ne: loggedInUserId } }
+                { _id: { $nin: hideUsersFromFeed } },
+                { _id: { $ne: loggedInUserId } }
             ]
         }).select(USER_SAFE_FIELD).skip(skip).limit(limit);
 
-        if(!showUsersInFeed.length) {
+        if (!showUsersInFeed.length) {
             return res.status(200).json({
                 success: true,
                 message: "No Users Found"

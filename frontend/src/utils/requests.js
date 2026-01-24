@@ -13,5 +13,5 @@ const requestsSlice = createSlice({
     }
 });
 
-export const { addRequests, removeFromRequests, removeRequests} = requestsSlice.actions;
+export const { addRequests, removeFromRequests, removeRequests } = requestsSlice.actions;
 export default requestsSlice.reducer;

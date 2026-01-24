@@ -32,7 +32,6 @@ const EditProfile = ({ user }) => {
     const value = skillInput.trim();
     if (!value) return;
 
-    // avoid duplicates (optional but recommended)
     if (skills.includes(value)) return;
 
     setSkills((prev) => [...prev, value]);
@@ -47,26 +46,32 @@ const EditProfile = ({ user }) => {
     e.preventDefault();
     try {
       const res = await axios.patch(
-        `${BASE_URL}/profile/edit`, 
+        `${BASE_URL}/profile/edit`,
         { firstName, lastName, age, photoUrl, about, gender, skills },
-        { withCredentials: true });
+        { withCredentials: true },
+      );
       dispatch(addUser(res?.data?.after));
       toast.success(res?.data?.message);
     } catch (err) {
-      console.log(err);
-      toast.error(err?.response?.data?.errors || err?.data?.message || "Something went wrong");
+      toast.error(
+        err?.response?.data?.errors ||
+          err?.data?.message ||
+          "Something went wrong",
+      );
     }
-  }
+  };
 
   return (
     <div className="flex justify-around w-screen">
       <div>
-        <form className="card w-full max-w-2xl bg-base-100/10 backdrop-blur-md shadow-xl space-y-5"
-        onSubmit={handleProfileSave}>
+        <form
+          className="card w-full max-w-2xl bg-base-100/10 backdrop-blur-md shadow-xl space-y-5"
+          onSubmit={handleProfileSave}
+        >
           <h2 className="text-2xl font-semibold text-primary md: mb-12">
             Edit Profile
           </h2>
-          {/* Name */}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="label text-base-content/80">First Name</label>
@@ -89,7 +94,6 @@ const EditProfile = ({ user }) => {
             </div>
           </div>
 
-          {/* Age & Gender */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="label text-base-content/80">Age</label>
@@ -117,7 +121,6 @@ const EditProfile = ({ user }) => {
             </div>
           </div>
 
-          {/* Photo URL */}
           <div>
             <label className="label text-base-content/80">
               Profile Photo URL
@@ -130,7 +133,6 @@ const EditProfile = ({ user }) => {
             />
           </div>
 
-          {/* About */}
           <div>
             <label className="label text-base-content/80">About</label>
             <textarea
@@ -141,7 +143,6 @@ const EditProfile = ({ user }) => {
             />
           </div>
 
-          {/* Skills */}
           <div>
             <label className="label text-base-content/80">Skills</label>
 
@@ -182,7 +183,6 @@ const EditProfile = ({ user }) => {
             ))}
           </div>
 
-          {/* Actions */}
           <div className="flex justify-end gap-3 pt-4">
             <button type="submit" className="btn btn-primary">
               Save Profile
@@ -200,7 +200,7 @@ const EditProfile = ({ user }) => {
               about,
               photoUrl,
               gender,
-              skills
+              skills,
             }}
           />
         }

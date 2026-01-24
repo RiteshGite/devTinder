@@ -57,7 +57,6 @@ const Login = () => {
       <div className="w-full max-w-md">
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body gap-4">
-            {/* Heading */}
             <div className="text-center">
               <h2 className="text-3xl font-bold">
                 {isSignUpForm ? "Create Account" : "Welcome Back"}
@@ -69,7 +68,6 @@ const Login = () => {
               </p>
             </div>
 
-            {/* Form */}
             <div className="space-y-3">
               {isSignUpForm && (
                 <>
@@ -119,7 +117,6 @@ const Login = () => {
                 <p className="text-error text-sm text-center">{error}</p>
               )}
 
-              {/* Primary Button */}
               <button
                 onClick={!isSignUpForm ? handleLoginBtn : handleSignUpBtn}
                 className="btn btn-primary w-full mt-2"
@@ -128,7 +125,6 @@ const Login = () => {
               </button>
             </div>
 
-            {/* Switch */}
             <div className="text-center text-sm text-base-content/60 mt-2">
               {!isSignUpForm ? (
                 <>

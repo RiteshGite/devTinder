@@ -2,6 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const { connectDb } = require("./config/db");
 const errorHandler = require("./middlewares/errorHandler");
+require('dotenv').config()
 
 const authRouter = require("./router/auth");
 const profileRouter = require("./router/profile");
@@ -12,7 +13,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_ORIGIN,
     credentials: true,
 }));
 app.use(express.json());
@@ -27,10 +28,6 @@ app.use(errorHandler);
 
 connectDb()
     .then(() => {
-        app.listen(7777, () => {
-            console.log("Server running on port 7777");
-        });
+        app.listen(process.env.PORT);
     })
-    .catch((err) => {
-        console.error("DB connection failed", err);
-    });
+    .catch((err) => { });

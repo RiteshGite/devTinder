@@ -1,3 +1,5 @@
+const { DEFAULT_PROFILE_PHOTO, JWT_TOKEN_EXPIRESIN, BCRYPT_SALT_ROUNDS } = require("../utils/constants");
+
 const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
@@ -24,7 +26,7 @@ const userSchema = mongoose.Schema({
         unique: true,
         trim: true,
         validate(email) {
-            if(!validator.isEmail(email)) {
+            if (!validator.isEmail(email)) {
                 throw new Error("Invalid Email");
             }
         }
@@ -40,12 +42,12 @@ const userSchema = mongoose.Schema({
     },
     age: {
         type: Number,
-        min: 18, 
+        min: 18,
         max: 150
     },
     photoUrl: {
         type: String,
-        default: "https://imgs.search.brave.com/PixY8_zgl8cU1m2y47bf0V-2jOluOmEHOR4564ScsUA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzY0LzY3LzI3/LzM2MF9GXzY0Njcy/NzM2X1U1a3BkR3M5/a2VVbGw4Q1JRM3Az/WWFFdjJNNnFrVlk1/LmpwZw",
+        default: DEFAULT_PROFILE_PHOTO,
         validate: {
             validator: url => validator.isURL(url),
             message: "Invalid Photo URL"
@@ -58,7 +60,7 @@ const userSchema = mongoose.Schema({
     },
     skills: {
         type: [{
-            type: String, 
+            type: String,
             maxLength: 20,
             trim: true
         }],
@@ -74,13 +76,13 @@ const userSchema = mongoose.Schema({
 userSchema.methods.getJwt = async function () {
     const user = this;
     const token = await jwt.sign(
-       { userId: user._id }, "DEV@Tinder$2811", { expiresIn: "1d" }
+        { userId: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: JWT_TOKEN_EXPIRESIN }
     );
     return token;
 }
 
 userSchema.methods.getHash = async function (userInputPassword) {
-    const passwordHash = await bcrypt.hash(userInputPassword, 10);
+    const passwordHash = await bcrypt.hash(userInputPassword, BECRYPT_SALT_ROUNDS);
     return passwordHash;
 };
 
