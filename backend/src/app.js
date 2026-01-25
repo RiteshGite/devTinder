@@ -14,9 +14,10 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -27,7 +28,7 @@ app.use("/", userRouter);
 
 app.use(errorHandler);
 
-connectDb()
+connectDb() 
     .then(() => {
         app.listen(process.env.PORT || "7777", () => {
             console.log(`Server is listening on port ${process.env.PORT || "7777"}`);
