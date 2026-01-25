@@ -13,10 +13,26 @@ const cors = require("cors");
 
 const app = express();
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://dev-tinder-neon-pi.vercel.app",
+];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: function (origin, callback) {
+        // allow Postman / server-to-server
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
 }));
+
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -28,10 +44,12 @@ app.use("/", userRouter);
 
 app.use(errorHandler);
 
+const PORT = process.env.PORT || "7777";
+
 connectDb() 
     .then(() => {
-        app.listen(process.env.PORT || "7777", () => {
-            console.log(`Server is listening on port ${process.env.PORT || "7777"}`);
+        app.listen(PORT, () => {
+            console.log(`Server is listening on port ${PORT}`);
         });
     })
     .catch((err) => { });
