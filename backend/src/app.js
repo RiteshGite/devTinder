@@ -9,14 +9,15 @@ const authRouter = require("./router/auth");
 const profileRouter = require("./router/profile");
 const requestRouter = require("./router/request");
 const userRouter = require("./router/user");
+
 const cors = require("cors");
 
 const app = express();
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://dev-tinder-neon-pi.vercel.app",
-];
+    "https://dev-tinder-neon-pi.vercel.app"
+]
 
 app.use(cors({
     origin: function (origin, callback) {
@@ -31,8 +32,6 @@ app.use(cors({
     },
     credentials: true,
 }));
-
-
 
 app.use(express.json());
 app.use(cookieParser());

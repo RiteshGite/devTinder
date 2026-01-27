@@ -1,4 +1,4 @@
-import { User, Users, Inbox, LogOut, Home } from "lucide-react";
+import { User, Users, Inbox, LogOut, Home, ChessQueen } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../utils/userSlice";
@@ -105,6 +105,15 @@ const Navbar = () => {
                 >
                   <Inbox />
                   Requests
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/membership"
+                  className="hover:bg-primary hover:text-primary-content"
+                >
+                  <ChessQueen />
+                  Membership
                 </Link>
               </li>
               <li onClick={handleLogOut}>
