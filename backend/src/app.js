@@ -14,22 +14,12 @@ const cors = require("cors");
 
 const app = express();
 
-const allowedOrigins = [
-    "http://localhost:5173",
-    "https://dev-tinder-neon-pi.vercel.app"
-]
-
 app.use(cors({
-    origin: function (origin, callback) {
-        // allow Postman / server-to-server
-        if (!origin) return callback(null, true);
-
-        if (allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-
-        return callback(new Error("Not allowed by CORS"));
-    },
+    origin: [
+        "http://localhost:5173",
+        "https://dev-tinder-neon-pi.vercel.app",
+        "http://35.171.47.132",
+    ],
     credentials: true,
 }));
 
