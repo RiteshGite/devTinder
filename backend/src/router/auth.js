@@ -7,6 +7,15 @@ const { BCRYPT_SALT_ROUNDS } = require("../utils/constants");
 const express = require("express");
 const authRouter = express.Router();
 
+const isProd = process.env.NODE_ENV === "production";
+const cookieOptions = {
+    httpOnly: true,
+    sameSite: "none",
+    secure: isProd,             
+    maxAge: 8 * 60 * 60 * 1000,  // 8 hours
+    path: "/",
+};
+
 authRouter.post("/signup", async (req, res, next) => {
     const { firstName, lastName, emailId, password, age, gender, photoUrl, about, skills } = req.body;
     try {
@@ -29,10 +38,7 @@ authRouter.post("/signup", async (req, res, next) => {
 
         const token = await user.getJwt();
         res.cookie("token", token, {
-            expires: new Date(Date.now() + 8 * 3600000),
-            httpOnly: true, 
-            secure: true,
-            sameSite: "none",
+            ...cookieOptions,
         });
 
         res.status(201).json({
@@ -59,17 +65,12 @@ authRouter.post("/login", async (req, res, next) => {
             throw new Error("Invalid Credentials");
         }
         const isPasswordValid = await user.isPasswordValid(password);
-        const isProd = process.env.NODE_ENV === "production";
         if (!isPasswordValid) {
             throw new Error("Invalid Credentials");
         } else {
             const token = await user.getJwt();
             res.cookie("token", token, {
-                expires: new Date(Date.now() + 8 * 3600000),
-                httpOnly: true,
-                secure: isProd,
-                sameSite: isProd ? "none" : "lax",
-                path: "/",
+                ...cookieOptions
             });
             res.status(200).json({
                 success: true,
@@ -83,13 +84,9 @@ authRouter.post("/login", async (req, res, next) => {
 })
 
 authRouter.post("/logout", (req, res) => {
-    const isProd = process.env.NODE_ENV === "production";
     res.cookie("token", null, { 
-        expires: new Date(Date.now()),
-        httpOnly: true,
-        secure: isProd,
-        sameSite: isProd ? "none" : "lax",
-        path: "/",
+        ...cookieOptions,
+        maxAge: 0
     });
     res.status(200).json({
         success: true,
