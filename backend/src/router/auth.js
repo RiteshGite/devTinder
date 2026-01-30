@@ -8,10 +8,11 @@ const express = require("express");
 const authRouter = express.Router();
 
 const isProd = process.env.NODE_ENV === "production";
+
 const cookieOptions = {
     httpOnly: true,
     sameSite: "none",
-    secure: isProd,             
+    secure: isProd ? "lax" : "none",             
     maxAge: 8 * 60 * 60 * 1000,  // 8 hours
     path: "/",
 };
