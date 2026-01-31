@@ -29,18 +29,18 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-200 border-b border-base-300 px-6 fixed z-1000">
+    <div className="navbar bg-base-200 border-b border-base-300 px-3 sm:px-6 fixed z-1000">
       <div className="flex-1">
         <Link
           to={user ? "/feed" : "/login"}
-          className="flex items-center gap-3 cursor-pointer w-fit"
+          className="flex items-center gap-2 sm:gap-3 cursor-pointer w-fit"
         >
           <div className="avatar">
-            <div className="ring-primary ring-offset-base-100 w-7 rounded-full ring-2 ring-offset-2">
+            <div className="ring-primary ring-offset-base-100 w-6 sm:w-7 rounded-full ring-2 ring-offset-2">
               <img src="/DevLogo.png" alt="DevTinder Logo" />
             </div>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 className="text-lg sm:text-2xl font-bold tracking-tight">
             Dev<span className="text-primary">Tinder</span>
           </h2>
         </Link>
@@ -48,14 +48,14 @@ const Navbar = () => {
 
       {user && (
         <>
-          <div className="text-gray-200 text-lg mr-10">
+          <div className="text-gray-200 text-sm sm:text-lg mr-3 sm:mr-10 hidden md:block">
             Welcome,{" "}
             <span className="text-gray-50 font-semibold">{user.firstName}</span>
           </div>
 
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost avatar p-0">
-              <div className="ring-primary ring-offset-base-100 w-12 h-12 rounded-full ring-2 ring-offset-2">
+              <div className="ring-primary ring-offset-base-100 w-10 h-10 sm:w-12 sm:h-12 rounded-full ring-2 ring-offset-2">
                 <img
                   src={
                     user
@@ -69,56 +69,56 @@ const Navbar = () => {
 
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 w-44 rounded-box bg-base-100 shadow"
+              className="menu menu-sm dropdown-content mt-3 w-44 sm:w-52 rounded-box bg-base-100 shadow"
             >
               <li>
                 <Link
                   to="/feed"
-                  className="hover:bg-primary hover:text-primary-content"
+                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
                 >
-                  <Home />
+                  <Home className="w-4 h-4 sm:w-5 sm:h-5" />
                   Home
                 </Link>
               </li>
               <li>
                 <Link
                   to="/profile"
-                  className="hover:bg-primary hover:text-primary-content"
+                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
                 >
-                  <User />
+                  <User className="w-4 h-4 sm:w-5 sm:h-5" />
                   Profile
                 </Link>
               </li>
               <li>
                 <Link
                   to="/connections"
-                  className="hover:bg-primary hover:text-primary-content"
+                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
                 >
-                  <Users />
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5" />
                   Connections
                 </Link>
               </li>
               <li>
                 <Link
                   to="/requests"
-                  className="hover:bg-primary hover:text-primary-content"
+                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
                 >
-                  <Inbox />
+                  <Inbox className="w-4 h-4 sm:w-5 sm:h-5" />
                   Requests
                 </Link>
               </li>
               <li>
                 <Link
                   to="/membership"
-                  className="hover:bg-primary hover:text-primary-content"
+                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
                 >
-                  <ChessQueen />
+                  <ChessQueen className="w-4 h-4 sm:w-5 sm:h-5" />
                   Membership
                 </Link>
               </li>
               <li onClick={handleLogOut}>
-                <div className="text-error hover:bg-error hover:text-error-content">
-                  <LogOut />
+                <div className="text-error hover:bg-error hover:text-error-content text-sm sm:text-base">
+                  <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
                   Logout
                 </div>
               </li>

@@ -3,8 +3,9 @@ import { Github, Linkedin, Mail, Phone } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="bg-base-200 border-t border-base-300">
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
+          {/* Brand */}
           <div>
             <h2 className="text-2xl font-bold tracking-tight">
               Dev<span className="text-primary">Tinder</span>
@@ -15,10 +16,11 @@ const Footer = () => {
             </p>
           </div>
 
+          {/* Contact */}
           <div>
             <h3 className="font-semibold text-lg mb-3">Contact</h3>
 
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-3 text-sm flex flex-col items-center md:items-start">
               <li className="flex items-center gap-3">
                 <Mail size={16} />
                 <a
@@ -38,10 +40,11 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Social */}
           <div>
             <h3 className="font-semibold text-lg mb-3">Connect</h3>
 
-            <div className="flex gap-4">
+            <div className="flex justify-center md:justify-start gap-4">
               <a
                 href="https://github.com/RiteshGite"
                 target="_blank"
@@ -65,9 +68,9 @@ const Footer = () => {
 
         <div className="divider my-8"></div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-base-content/60">
+        {/* Bottom */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-base-content/60 text-center md:text-left">
           <p>© {new Date().getFullYear()} DevTinder. All rights reserved.</p>
-
           <p>
             Built by{" "}
             <span className="font-medium text-base-content">Ritesh Gite</span>

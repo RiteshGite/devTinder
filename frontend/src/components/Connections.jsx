@@ -31,56 +31,73 @@ const Connections = () => {
 
   if (loading && !connections)
     return (
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center items-center min-h-screen">
         <span className="loading loading-spinner loading-lg"></span>
       </div>
     );
 
   if (!connections)
     return (
-      <div className="flex justify-center items-center font-bold p-24">
+      <div className="flex justify-center items-center font-bold p-24 text-center min-h-screen">
         <h4>No Connections</h4>
       </div>
     );
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md: min-h-screen mb-20">
-      <h2 className="text-2xl font-bold mb-4 text-center">Connections</h2>
+    <div className="max-w-3xl mx-auto p-4 min-h-screen mb-32">
+      <h2 className="text-2xl font-bold mb-6 text-center md:text-left">
+        Connections
+      </h2>
 
-      <div className="space-y-4">
-        {connections.map((connection) => (
-          <div
-            key={connection._id}
-            className="card card-side bg-base-200 shadow-md"
-          >
-            <figure className="p-4">
-              <img
-                src={connection.photoUrl}
-                alt="profile"
-                className="w-14 h-14 rounded-full"
-              />
-            </figure>
+      {loading && !connections && (
+        <div className="flex justify-center mt-10">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      )}
 
-            <div className="card-body p-4">
-              <h3 className="font-semibold text-lg">
-                {connection.firstName} {connection.lastName}
-              </h3>
+      {!loading && !connections && (
+        <div className="flex justify-center items-center font-bold flex-1 text-center mt-32">
+          <h4>No Connections</h4>
+        </div>
+      )}
 
-              <p className="text-sm opacity-70">{connection.about}</p>
+      {connections && (
+        <div className="space-y-4">
+          {connections.map((connection) => (
+            <div
+              key={connection._id}
+              className="card bg-base-200 shadow-md flex flex-col sm:flex-row"
+            >
+              <figure className="p-4 flex justify-center sm:justify-start">
+                <img
+                  src={connection.photoUrl}
+                  alt="profile"
+                  className="w-16 h-16 rounded-full"
+                />
+              </figure>
 
-              <div className="flex flex-wrap gap-2 mt-2">
-                {connection.skills.map((skill, index) => (
-                  <span key={index} className="badge badge-outline">
-                    {skill}
-                  </span>
-                ))}
+              <div className="card-body p-4 text-center sm:text-left">
+                <h3 className="font-semibold text-lg">
+                  {connection.firstName} {connection.lastName}
+                </h3>
+
+                <p className="text-sm opacity-70">{connection.about}</p>
+
+                <div className="flex flex-wrap gap-2 mt-2 justify-center sm:justify-start">
+                  {connection.skills.map((skill, index) => (
+                    <span key={index} className="badge badge-outline">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
+
 };
 
 export default Connections;

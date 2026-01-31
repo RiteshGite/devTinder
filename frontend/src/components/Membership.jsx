@@ -2,14 +2,14 @@ import { CheckCircle, Crown } from "lucide-react";
 
 const Membership = () => {
   return (
-    <div className="flex w-full flex-col lg:flex-row gap-6 p-6">
+    <div className="flex w-full flex-col lg:flex-row gap-6 px-4 py-8 max-w-5xl mx-auto">
       {/* Silver Membership */}
-      <div className="card bg-neutral-200 text-neutral-900 shadow-xl grow">
-        <div className="card-body items-center text-center">
-          <h2 className="card-title text-xl">Silver Membership</h2>
+      <div className="card bg-neutral-200 text-neutral-900 shadow-xl w-full lg:w-1/2">
+        <div className="card-body items-center text-center p-6">
+          <h2 className="card-title text-xl sm:text-2xl">Silver Membership</h2>
           <p className="text-sm opacity-70">For basic visibility</p>
 
-          <ul className="text-left space-y-2 mt-4">
+          <ul className="text-left space-y-2 mt-4 w-full max-w-xs">
             <li className="flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-success" />
               100 requests/day
@@ -23,26 +23,25 @@ const Membership = () => {
             </li>
           </ul>
 
-          <button
-            className="btn btn-outline btn-primary mt-4"
-          >
+          <button className="btn btn-outline btn-primary mt-6 w-full sm:w-auto">
             Choose Silver
           </button>
         </div>
       </div>
 
-      <div className="divider lg:divider-horizontal">OR</div>
+      {/* Divider */}
+      <div className="divider lg:divider-horizontal my-2 lg:my-0">OR</div>
 
       {/* Gold Membership */}
-      <div className="card bg-warning text-warning-content shadow-xl grow">
-        <div className="card-body items-center text-center">
-          <h2 className="card-title text-xl flex items-center gap-2">
+      <div className="card bg-warning text-warning-content shadow-xl w-full lg:w-1/2">
+        <div className="card-body items-center text-center p-6">
+          <h2 className="card-title text-xl sm:text-2xl flex items-center gap-2">
             <Crown className="w-6 h-6" />
             Gold Membership
           </h2>
           <p className="text-sm opacity-90">Maximum reach & priority</p>
 
-          <ul className="text-left space-y-2 mt-4">
+          <ul className="text-left space-y-2 mt-4 w-full max-w-xs">
             <li className="flex items-center gap-2">
               <CheckCircle className="w-5 h-5" />
               Unlimited requests
@@ -60,9 +59,7 @@ const Membership = () => {
             </li>
           </ul>
 
-          <button
-            className="btn btn-neutral mt-4"
-          >
+          <button className="btn btn-neutral mt-6 w-full sm:w-auto">
             Choose Gold
           </button>
         </div>

@@ -13,7 +13,7 @@ const Requests = () => {
 
   const handleButtonClick = async (status, id) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         `${BASE_URL}/request/review/${status}/${id}`,
         {},
         { withCredentials: true },
@@ -42,44 +42,48 @@ const Requests = () => {
 
   if (!requests && loading)
     return (
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center items-center min-h-screen">
         <span className="loading loading-spinner loading-lg"></span>
       </div>
     );
 
   if (!requests || !requests.length)
     return (
-      <div className="flex justify-center items-center font-bold p-24">
-        <h4>No Requests</h4>
+      <div className="flex justify-center items-center font-bold p-24 text-center min-h-screen">
+        <h4>No Pending Requests</h4>
       </div>
     );
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md: min-h-screen mb-32">
-      <h2 className="text-2xl font-bold mb-4 text-center">Requests</h2>
+    <div className="max-w-3xl mx-auto p-4 min-h-screen mb-32">
+      <h2 className="text-2xl font-bold mb-6 text-center md:text-left">
+        Requests
+      </h2>
 
       <div className="space-y-4">
         {requests.map((request) => (
           <div
             key={request.fromUserId._id}
-            className="card card-side bg-base-200 shadow-md"
+            className="card bg-base-200 shadow-md flex flex-col sm:flex-row"
           >
-            <figure className="p-4">
+            {/* Avatar */}
+            <figure className="p-4 flex justify-center sm:justify-start">
               <img
                 src={request.fromUserId.photoUrl}
                 alt="profile"
-                className="w-14 h-14 rounded-full"
+                className="w-16 h-16 rounded-full"
               />
             </figure>
 
-            <div className="card-body p-4">
+            {/* Info */}
+            <div className="card-body p-4 text-center sm:text-left">
               <h3 className="font-semibold text-lg">
                 {request.fromUserId.firstName} {request.fromUserId.lastName}
               </h3>
 
               <p className="text-sm opacity-70">{request.fromUserId.about}</p>
 
-              <div className="flex flex-wrap gap-2 mt-2">
+              <div className="flex flex-wrap gap-2 mt-2 justify-center sm:justify-start">
                 {request.fromUserId.skills.map((skill, index) => (
                   <span key={index} className="badge badge-outline">
                     {skill}
@@ -88,20 +92,17 @@ const Requests = () => {
               </div>
             </div>
 
-            <div className="flex gap-x-6 items-center md: mx-10">
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row gap-3 p-4 sm:items-center sm:mr-6">
               <button
-                className="btn btn-error"
-                onClick={() => {
-                  handleButtonClick("rejected", request._id);
-                }}
+                className="btn btn-error w-full sm:w-auto"
+                onClick={() => handleButtonClick("rejected", request._id)}
               >
                 Reject
               </button>
               <button
-                className="btn btn-primary"
-                onClick={() => {
-                  handleButtonClick("accepted", request._id);
-                }}
+                className="btn btn-primary w-full sm:w-auto"
+                onClick={() => handleButtonClick("accepted", request._id)}
               >
                 Accept
               </button>

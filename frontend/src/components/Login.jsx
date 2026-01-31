@@ -53,21 +53,23 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-300 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-base-300 px-4 py-10">
       <div className="w-full max-w-md">
         <div className="card bg-base-100 shadow-xl">
-          <div className="card-body gap-4">
+          <div className="card-body gap-4 p-5 sm:p-8">
+            {/* Heading */}
             <div className="text-center">
-              <h2 className="text-3xl font-bold">
+              <h2 className="text-2xl sm:text-3xl font-bold">
                 {isSignUpForm ? "Create Account" : "Welcome Back"}
               </h2>
-              <p className="text-base-content/60 mt-1">
+              <p className="text-sm sm:text-base text-base-content/60 mt-1">
                 {isSignUpForm
                   ? "Join DevTinder and start connecting"
                   : "Login to continue your journey"}
               </p>
             </div>
 
+            {/* Form */}
             <div className="space-y-3">
               {isSignUpForm && (
                 <>
@@ -125,7 +127,8 @@ const Login = () => {
               </button>
             </div>
 
-            <div className="text-center text-sm text-base-content/60 mt-2">
+            {/* Footer text */}
+            <div className="text-center text-xs sm:text-sm text-base-content/60 mt-2">
               {!isSignUpForm ? (
                 <>
                   New user?

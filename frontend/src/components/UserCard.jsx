@@ -34,8 +34,8 @@ const UserCard = ({ user }) => {
   };
 
   return (
-    <div className="card w-80 bg-base-100 shadow-xl">
-      <figure className="h-56">
+    <div className="card w-full max-w-sm sm:w-80 bg-base-100 shadow-xl">
+      <figure className="h-48 sm:h-56">
         <img
           src={photoUrl}
           alt={`${firstName} ${lastName}`}
@@ -43,13 +43,13 @@ const UserCard = ({ user }) => {
         />
       </figure>
 
-      <div className="card-body">
-        <h2 className="card-title">
+      <div className="card-body p-4 sm:p-6">
+        <h2 className="card-title text-lg sm:text-xl">
           {firstName} {lastName}
           <div className="badge badge-secondary">{age}</div>
         </h2>
 
-        <p className="text-sm capitalize text-gray-300">{gender}</p>
+        <p className="text-xs sm:text-sm capitalize text-gray-300">{gender}</p>
 
         <p className="text-sm text-gray-300">{about}</p>
 
@@ -62,20 +62,16 @@ const UserCard = ({ user }) => {
             ))}
         </div>
 
-        <div className="card-actions justify-between pt-4">
+        <div className="card-actions flex flex-col sm:flex-row gap-2 sm:justify-between pt-4">
           <button
-            className="btn btn-error btn-sm"
-            onClick={() => {
-              handleButtonClick("ignored", _id);
-            }}
+            className="btn btn-error btn-sm w-full sm:w-auto"
+            onClick={() => handleButtonClick("ignored", _id)}
           >
             Ignore
           </button>
           <button
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              handleButtonClick("interested", _id);
-            }}
+            className="btn btn-primary btn-sm w-full sm:w-auto"
+            onClick={() => handleButtonClick("interested", _id)}
           >
             Interested
           </button>
@@ -83,6 +79,7 @@ const UserCard = ({ user }) => {
       </div>
     </div>
   );
+
 };
 
 export default UserCard;

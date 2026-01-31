@@ -5,7 +5,7 @@ const Profile = () => {
   const user = useSelector((store) => store.user);
   return (
     user && (
-      <div className="flex justify-around pt-12 pb-52">
+      <div className="flex justify-center px-4 pt-10 pb-40 min-h-screen">
         <EditProfile user={user} />
       </div>
     )

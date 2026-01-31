@@ -33,21 +33,27 @@ const Feed = () => {
 
   if (loading && !feed)
     return (
-      <div className="p-16 flex justify-center items-center">
+      <div className="p-6 sm:p-16 flex justify-center items-center min-h-screen">
         <Shimmer count={1} />
       </div>
     );
 
   if (!feed || !feed.length) {
     return (
-      <div className="p-16 flex justify-center items-center">
-        <h2 className="text-bold text-2xl">No new users found</h2>
+      <div className="p-6 sm:p-16 flex flex-col justify-center items-center min-h-screen text-center">
+        <h2 className="font-semibold text-xl sm:text-2xl">
+          No new profiles right now
+        </h2>
+        <p className="text-base-content/60 mt-2">
+          Check back later — we’re constantly adding new developers.
+        </p>
       </div>
     );
+
   }
 
   return (
-    <div className="flex justify-center md: py-24">
+    <div className="flex justify-center items-center px-4 py-10 sm:py-24 min-h-screen">
       <UserCard user={feed[0]} />
     </div>
   );

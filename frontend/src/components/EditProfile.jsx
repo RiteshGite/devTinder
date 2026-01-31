@@ -31,9 +31,7 @@ const EditProfile = ({ user }) => {
   const addSkill = () => {
     const value = skillInput.trim();
     if (!value) return;
-
     if (skills.includes(value)) return;
-
     setSkills((prev) => [...prev, value]);
     setSkillInput("");
   };
@@ -62,13 +60,14 @@ const EditProfile = ({ user }) => {
   };
 
   return (
-    <div className="flex justify-around w-screen">
-      <div>
+    <div className="flex flex-col lg:flex-row gap-10 justify-center items-start px-4 py-10 min-h-screen">
+      {/* Form */}
+      <div className="w-full max-w-2xl">
         <form
-          className="card w-full max-w-2xl bg-base-100/10 backdrop-blur-md shadow-xl space-y-5"
+          className="card w-full bg-base-100/10 backdrop-blur-md shadow-xl space-y-5 p-6"
           onSubmit={handleProfileSave}
         >
-          <h2 className="text-2xl font-semibold text-primary md: mb-12">
+          <h2 className="text-2xl font-semibold text-primary text-center lg:text-left mb-6">
             Edit Profile
           </h2>
 
@@ -146,7 +145,7 @@ const EditProfile = ({ user }) => {
           <div>
             <label className="label text-base-content/80">Skills</label>
 
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
                 value={skillInput}
@@ -158,7 +157,7 @@ const EditProfile = ({ user }) => {
               <button
                 type="button"
                 onClick={addSkill}
-                className="btn btn-primary"
+                className="btn btn-primary w-full sm:w-auto"
               >
                 Add
               </button>
@@ -183,27 +182,27 @@ const EditProfile = ({ user }) => {
             ))}
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
-            <button type="submit" className="btn btn-primary">
+          <div className="flex justify-center lg:justify-end pt-4">
+            <button type="submit" className="btn btn-primary w-full sm:w-auto">
               Save Profile
             </button>
           </div>
         </form>
       </div>
-      <div className="pt-16">
-        {
-          <UserCard
-            user={{
-              firstName,
-              lastName,
-              age,
-              about,
-              photoUrl,
-              gender,
-              skills,
-            }}
-          />
-        }
+
+      {/* Preview */}
+      <div className="w-full lg:w-auto flex justify-center lg:pt-16">
+        <UserCard
+          user={{
+            firstName,
+            lastName,
+            age,
+            about,
+            photoUrl,
+            gender,
+            skills,
+          }}
+        />
       </div>
     </div>
   );
