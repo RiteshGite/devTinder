@@ -1,9 +1,12 @@
 require('dotenv').config()
 
 const express = require("express");
+const http = require("http");
 const cookieParser = require("cookie-parser");
+
 const { connectDb } = require("./config/db");
 const errorHandler = require("./middlewares/errorHandler");
+const initializeSocket = require("./utils/socket");
 
 const authRouter = require("./router/auth");
 const profileRouter = require("./router/profile");
@@ -21,7 +24,7 @@ const allowedOrigins = [
     "https://dev-tinder-neon-pi.vercel.app",
     "http://35.171.47.132",
     "http://developerstinder.duckdns.org"
-].filter(Boolean); 
+]
 
 app.use(cors({
     origin: allowedOrigins,
@@ -47,9 +50,13 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || "7777";
 
+const server = http.createServer(app);
+
+initializeSocket(server);
+
 connectDb() 
     .then(() => {
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`Server is listening on port ${PORT}`);
         });
     })
