@@ -1,32 +1,67 @@
-const { Server } = require("socket.io");
-
-const allowedOrigins = [
-    "http://localhost:5173",
-    "https://dev-tinder-neon-pi.vercel.app",
-    "http://35.171.47.132",
-    "http://developerstinder.duckdns.org"
-] 
+const socket = require("socket.io");
+const socketAuth = require("../middlewares/socketAuth");
+const Chat = require("../models/chat");
 
 const initializeSocket = (server) => {
-    const io = new Server(server, {
-        cors: allowedOrigins
+    const io = socket(server, {
+        cors: {
+            origin: process.env.FRONTEND_URL,
+            credentials: true, // 🔥 VERY IMPORTANT
+        },
     });
 
-    io.on('connection', (socket) => {
+    // 🔐 Apply Authentication Middleware
+    io.use(socketAuth);
 
-        // handle events
-        socket.on("joinChat", () => {
+    io.on("connection", (socket) => {
 
-        })
+        socket.on("joinChat", ({ targetUserId }) => {
+            const userId = socket.user._id; // 🔥 NEVER trust frontend
 
-        socket.on("sendMessage", () => {
+            const roomId = [userId, targetUserId].sort().join("_");
 
-        })
+            socket.join(roomId);
 
-        socket.on("disconnect", () => {
+            console.log(socket.user.firstName + " joined room - " + roomId);
+        });
 
-        })
-    })
-}
+        socket.on("sendMessage", async ({ targetUserId, newMsg }) => {
+            try {
+                const userId = socket.user._id;
 
-export default initializeSocket;
+                const roomId = [userId, targetUserId].sort().join("_");
+
+                // 🔎 Find existing chat
+                let chat = await Chat.findOne({
+                    participants: { $all: [userId, targetUserId] },
+                });
+
+                // 🆕 If no chat, create one
+                if (!chat) {
+                    chat = new Chat({
+                        participants: [userId, targetUserId],
+                        messages: [],
+                    });
+                }
+
+                // 💬 Push new message
+                chat.messages.push({
+                    senderId: userId,
+                    text: newMsg,
+                });
+
+                await chat.save();
+
+                // 📡 Emit message to room
+                io.to(roomId).emit("receiveMessage", {
+                    senderId: userId,
+                    message: newMsg,
+                });
+            } catch (err) {
+                console.log("Message Save Error:", err.message);
+            }
+        });
+    });
+};
+
+module.exports = initializeSocket;

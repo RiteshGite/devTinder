@@ -14,6 +14,7 @@ const requestRouter = require("./router/request");
 const userRouter = require("./router/user");
 const paymentRouter = require("./router/payment");
 const paymentWebhookHandler = require("./router/paymentWebhookHandler");
+const chatRouter = require("./router/chat");
 
 const cors = require("cors");
 
@@ -45,6 +46,7 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
+app.use("/", chatRouter);
 
 app.use(errorHandler);
 
