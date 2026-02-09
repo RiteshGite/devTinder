@@ -3,7 +3,6 @@ import { BASE_URL } from "../utils/constants";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { removeFromFeed } from "../utils/feedSlice";
-import { CheckCheck } from "lucide-react";
 
 const UserCard = ({ user }) => {
   const dispatch = useDispatch();
@@ -19,9 +18,14 @@ const UserCard = ({ user }) => {
     about,
     photoUrl,
     skills = [],
-    isBlueTick
+    memberships,
   } = user;
 
+  // ================= MEMBERSHIP LOGIC =================
+  const isGold = memberships?.Gold?.active;
+  const isSilver = memberships?.Silver?.active;
+
+  // ================= HANDLERS =================
   const handleButtonClick = async (status, _id) => {
     try {
       await axios.post(
@@ -36,7 +40,17 @@ const UserCard = ({ user }) => {
   };
 
   return (
-    <div className="card w-full max-w-sm sm:w-80 bg-base-200 shadow-xl">
+    <div
+      className={`card w-full max-w-sm sm:w-80 bg-base-200 transition-all duration-300
+        ${
+          isGold
+            ? "border-2 border-yellow-400 shadow-[0_0_25px_rgba(234,179,8,0.7)] hover:shadow-[0_0_35px_rgba(234,179,8,0.9)]"
+            : isSilver
+              ? "border-2 border-gray-300 shadow-[0_0_20px_rgba(209,213,219,0.7)] hover:shadow-[0_0_28px_rgba(209,213,219,0.9)]"
+              : "shadow-xl"
+        }
+      `}
+    >
       <figure className="h-48 sm:h-56">
         <img
           src={photoUrl}
@@ -48,11 +62,6 @@ const UserCard = ({ user }) => {
       <div className="card-body p-4 sm:p-6">
         <h2 className="card-title text-lg sm:text-xl">
           {firstName} {lastName}
-          {isBlueTick && (
-            <span>
-              <CheckCheck />
-            </span>
-          )}
           {age && <div className="badge badge-secondary">{age}</div>}
         </h2>
 
@@ -76,6 +85,7 @@ const UserCard = ({ user }) => {
           >
             Ignore
           </button>
+
           <button
             className="btn btn-primary btn-sm w-full sm:w-auto"
             onClick={() => handleButtonClick("interested", _id)}
@@ -86,7 +96,6 @@ const UserCard = ({ user }) => {
       </div>
     </div>
   );
-
 };
 
 export default UserCard;

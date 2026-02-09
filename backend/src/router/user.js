@@ -70,9 +70,10 @@ userRouter.get("/user/connections", userAuth, async (req, res, next) => {
         next(err);
     }
 })
-
 userRouter.get("/feed", userAuth, async (req, res, next) => {
-    const USER_SAFE_FIELD = "firstName lastName gender age photoUrl about skills";
+    const USER_SAFE_FIELD =
+        "firstName lastName gender age photoUrl about skills memberships";
+
     try {
         const page = parseInt(req.query?.page) || 1;
         let limit = parseInt(req.query?.limit) || 10;
@@ -80,40 +81,85 @@ userRouter.get("/feed", userAuth, async (req, res, next) => {
         const skip = (page - 1) * limit;
 
         const loggedInUserId = req.user?._id;
+
+        // 1️⃣ Find users to hide
         const connectionRequests = await ConnectionRequest.find({
             $or: [
                 { fromUserId: loggedInUserId },
-                { toUserId: loggedInUserId }
-            ]
-        }).select("fromUserId toUserId")
+                { toUserId: loggedInUserId },
+            ],
+        }).select("fromUserId toUserId");
 
-        const hideUsersFromFeed = connectionRequests.map(obj => {
+        const hideUsersFromFeed = connectionRequests.map((obj) => {
             if (obj.fromUserId.toString() === loggedInUserId.toString()) {
                 return obj.toUserId;
             }
             return obj.fromUserId;
-        })
+        });
 
-        const showUsersInFeed = await User.find({
-            $and: [
-                { _id: { $nin: hideUsersFromFeed } },
-                { _id: { $ne: loggedInUserId } }
-            ]
-        }).select(USER_SAFE_FIELD).skip(skip).limit(limit);
+        // 2️⃣ Aggregation with PRIORITY
+        const feed = await User.aggregate([
+            {
+                $match: {
+                    _id: {
+                        $nin: hideUsersFromFeed,
+                        $ne: loggedInUserId,
+                    },
+                },
+            },
 
-        if (!showUsersInFeed.length) {
+            // ⭐ ADD PRIORITY FIELD
+            {
+                $addFields: {
+                    priority: {
+                        $cond: [
+                            { $eq: ["$memberships.Gold.active", true] },
+                            2,
+                            {
+                                $cond: [
+                                    { $eq: ["$memberships.Silver.active", true] },
+                                    1,
+                                    0,
+                                ],
+                            },
+                        ],
+                    },
+                },
+            },
+
+            // ⭐ SORT BY PRIORITY (Gold > Silver > Normal)
+            {
+                $sort: { priority: -1 },
+            },
+
+            // Pagination
+            { $skip: skip },
+            { $limit: limit },
+
+            // Safety: remove unwanted fields
+            {
+                $project: {
+                    priority: 0, // hide internal field
+                },
+            },
+        ]);
+
+        if (!feed.length) {
             return res.status(200).json({
                 success: true,
-                message: "No Users Found"
-            })
+                message: "No Users Found",
+                feed: [],
+            });
         }
+
         res.status(200).json({
             success: true,
-            feed: showUsersInFeed
-        })
+            feed,
+        });
     } catch (err) {
         next(err);
     }
-})
+});
+
 
 module.exports = userRouter;

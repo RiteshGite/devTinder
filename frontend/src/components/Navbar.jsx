@@ -14,6 +14,14 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // ================= MEMBERSHIP LOGIC =================
+  const silverActive = user?.memberships?.Silver?.active;
+  const goldActive = user?.memberships?.Gold?.active;
+
+  // Gold > Silver priority
+  const membershipBadge = goldActive ? "Gold" : silverActive ? "Silver" : null;
+
+  // ================= LOGOUT =================
   const handleLogOut = async () => {
     try {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
@@ -24,28 +32,52 @@ const Navbar = () => {
       toast.success("Logged out successfully");
       navigate("/login", { replace: true });
     } catch (err) {
-      toast.error(err || "Something went wrong!");
+      toast.error("Something went wrong!");
     }
   };
 
   return (
-    <div className="navbar bg-base-200 border-b border-base-300 px-3 sm:px-6 fixed z-1000">
+    <div className="navbar bg-base-200 border-b border-base-300 px-3 sm:px-6 fixed z-50">
+      {/* ================= LEFT ================= */}
       <div className="flex-1">
         <Link
           to={user ? "/feed" : "/login"}
-          className="flex items-center gap-2 sm:gap-3 cursor-pointer w-fit"
+          className="flex items-center gap-3 sm:gap-4 cursor-pointer w-fit"
         >
           <div className="avatar">
             <div className="ring-primary ring-offset-base-100 w-6 sm:w-7 rounded-full ring-2 ring-offset-2">
               <img src="/DevLogo.png" alt="DevConnect Logo" />
             </div>
           </div>
-          <h2 className="text-lg sm:text-2xl font-bold tracking-tight">
-            Dev<span className="text-primary">Connect</span>
-          </h2>
+
+          {/* Brand + Badge */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <h2 className="text-lg sm:text-2xl font-bold tracking-tight">
+              Dev<span className="text-primary">Connect</span>
+            </h2>
+
+            {membershipBadge === "Gold" && (
+              <img
+                src="/gold.png"
+                alt="Gold Member"
+                title="Gold Member"
+                className="w-7 h-7 sm:w-8 sm:h-8 drop-shadow-[0_0_12px_rgba(234,179,8,0.9)] hover:drop-shadow-[0_0_20px_rgba(234,179,8,1)] hover:scale-110 transition-all duration-300 cursor-pointer animate-pulse"
+              />
+            )}
+
+            {membershipBadge === "Silver" && (
+              <img
+                src="/silver.png"
+                alt="Silver Member"
+                title="Silver Member"
+                className="w-6 h-6 sm:w-7 sm:h-7 drop-shadow-[0_0_10px_rgba(192,192,192,0.8)] hover:drop-shadow-[0_0_18px_rgba(192,192,192,1)] hover:scale-110 transition-all duration-300 cursor-pointer"
+              />
+            )}
+          </div>
         </Link>
       </div>
 
+      {/* ================= RIGHT ================= */}
       {user && (
         <>
           <div className="text-gray-200 text-sm sm:text-lg mr-3 sm:mr-10 hidden md:block">
@@ -58,9 +90,8 @@ const Navbar = () => {
               <div className="ring-primary ring-offset-base-100 w-10 h-10 sm:w-12 sm:h-12 rounded-full ring-2 ring-offset-2">
                 <img
                   src={
-                    user
-                      ? user.photoUrl
-                      : "https://imgs.search.brave.com/PixY8_zgl8cU1m2y47bf0V-2jOluOmEHOR4564ScsUA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzY0LzY3LzI3/LzM2MF9GXzY0Njcy/NzM2X1U1a3BkR3M5/a2VVbGw4Q1JRM3Az/WWFFdjJNNnFrVlk1/LmpwZw"
+                    user.photoUrl ||
+                    "https://imgs.search.brave.com/PixY8_zgl8cU1m2y47bf0V-2jOluOmEHOR4564ScsUA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAwLzY0LzY3LzI3/LzM2MF9GXzY0Njcy/NzM2X1U1a3BkR3M5/a2VVbGw4Q1JRM3Az/WWFFdjJNNnFrVlk1/LmpwZw"
                   }
                   alt="User Avatar"
                 />
@@ -71,53 +102,71 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 w-44 sm:w-52 rounded-box bg-base-100 shadow"
             >
+              {/* Membership label */}
+              {membershipBadge === "Gold" && (
+                <li className="px-3 py-2 text-center text-yellow-500 font-bold drop-shadow-[0_0_8px_rgba(234,179,8,0.6)]">
+                  👑 Gold Member
+                </li>
+              )}
+
+              {membershipBadge === "Silver" && (
+                <li className="px-3 py-2 text-center text-gray-300 font-semibold drop-shadow-[0_0_6px_rgba(192,192,192,0.5)]">
+                  🥈 Silver Member
+                </li>
+              )}
+
               <li>
                 <Link
                   to="/feed"
-                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <Home className="w-4 h-4 sm:w-5 sm:h-5" />
                   Home
                 </Link>
               </li>
+
               <li>
                 <Link
                   to="/profile"
-                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <User className="w-4 h-4 sm:w-5 sm:h-5" />
                   Profile
                 </Link>
               </li>
+
               <li>
                 <Link
                   to="/connections"
-                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <Users className="w-4 h-4 sm:w-5 sm:h-5" />
                   Connections
                 </Link>
               </li>
+
               <li>
                 <Link
                   to="/requests"
-                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <Inbox className="w-4 h-4 sm:w-5 sm:h-5" />
                   Requests
                 </Link>
               </li>
+
               <li>
                 <Link
                   to="/membership"
-                  className="hover:bg-primary hover:text-primary-content text-sm sm:text-base"
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <ChessQueen className="w-4 h-4 sm:w-5 sm:h-5" />
                   Membership
                 </Link>
               </li>
+
               <li onClick={handleLogOut}>
-                <div className="text-error hover:bg-error hover:text-error-content text-sm sm:text-base">
+                <div className="text-error hover:scale-105 transition-transform duration-200">
                   <LogOut className="w-4 h-4 sm:w-5 sm:h-5" />
                   Logout
                 </div>

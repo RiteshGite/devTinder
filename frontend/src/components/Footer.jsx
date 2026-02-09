@@ -1,9 +1,11 @@
 import { Github, Linkedin, Mail, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <footer className="bg-base-200 border-t border-base-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        {/* Top Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
           {/* Brand */}
           <div>
@@ -40,32 +42,45 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Social */}
+          {/* Connect */}
           <div>
             <h3 className="font-semibold text-lg mb-3">Connect</h3>
 
             <div className="flex justify-center md:justify-start gap-4">
-              <a
-                href="https://github.com/RiteshGite"
+              <Link
+                to="https://github.com/RiteshGite"
                 target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost btn-circle"
+                className="group relative p-2 rounded-full transition hover:bg-purple-500/20 hover:scale-110"
               >
-                <Github size={20} />
-              </a>
+                <Github className="w-5 h-5 group-hover:text-purple-400" />
+                <span
+                  className="absolute -top-7 left-1/2 -translate-x-1/2
+                                 text-xs px-2 py-0.5 rounded bg-purple-600 text-white
+                                 opacity-0 group-hover:opacity-100 transition"
+                >
+                  GitHub
+                </span>
+              </Link>
 
-              <a
-                href="https://www.linkedin.com/in/ritesh-gite/"
+              <Link
+                to="https://www.linkedin.com/in/ritesh-gite/"
                 target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost btn-circle"
+                className="group relative p-2 rounded-full transition hover:bg-purple-500/20 hover:scale-110"
               >
-                <Linkedin size={20} />
-              </a>
+                <Linkedin className="w-5 h-5 group-hover:text-purple-400" />
+                <span
+                  className="absolute -top-7 left-1/2 -translate-x-1/2
+                                 text-xs px-2 py-0.5 rounded bg-purple-600 text-white
+                                 opacity-0 group-hover:opacity-100 transition"
+                >
+                  LinkedIn
+                </span>
+              </Link>
             </div>
           </div>
         </div>
 
+        {/* Divider */}
         <div className="divider my-8"></div>
 
         {/* Bottom */}
