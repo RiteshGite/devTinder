@@ -8,7 +8,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <h2 className="text-2xl font-bold tracking-tight">
-              Dev<span className="text-primary">Tinder</span>
+              Dev<span className="text-primary">Connect</span>
             </h2>
             <p className="mt-3 text-sm text-base-content/70">
               A developer-first platform to connect, collaborate, and grow
@@ -70,7 +70,7 @@ const Footer = () => {
 
         {/* Bottom */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-base-content/60 text-center md:text-left">
-          <p>© {new Date().getFullYear()} DevTinder. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} DevConnect. All rights reserved.</p>
           <p>
             Built by{" "}
             <span className="font-medium text-base-content">Ritesh Gite</span>

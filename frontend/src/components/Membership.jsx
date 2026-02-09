@@ -29,7 +29,7 @@ const Membership = () => {
         {/* Heading */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white">
-            Upgrade Your <span className="text-primary">DevTinder</span>{" "}
+            Upgrade Your <span className="text-primary">DevConnect</span>{" "}
             Experience
           </h1>
           <p className="text-neutral-400 mt-3">
@@ -109,7 +109,7 @@ const Membership = () => {
               </li>
               <li className="flex gap-2">
                 <CheckCircle className="w-5 h-5" />
-                DevTinder Gold badge
+                DevConnect Gold badge
               </li>
               <li className="flex gap-2">
                 <CheckCircle className="w-5 h-5" />

@@ -13,7 +13,7 @@ const PaymentSuccess = () => {
           <h2 className="text-2xl font-bold mt-4">Payment Successful 🎉</h2>
 
           <p className="text-gray-500 mt-2">
-            Thank you for upgrading your DevTinder membership.
+            Thank you for upgrading your DevConnect membership.
           </p>
 
           <div className="alert alert-info mt-4 text-sm">

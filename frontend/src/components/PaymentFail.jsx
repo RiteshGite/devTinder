@@ -35,7 +35,7 @@ const PaymentFailed = () => {
           </div>
 
           <p className="text-xs text-gray-400 mt-4">
-            Need help? Contact support@devtinder.com
+            Need help? Contact support@devconnect.com
           </p>
         </div>
       </div>

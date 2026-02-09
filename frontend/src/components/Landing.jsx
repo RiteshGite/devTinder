@@ -13,7 +13,7 @@ const Landing = () => {
           Connect. Collaborate. Code. 💻
         </h1>
         <p className="text-base sm:text-xl md:text-2xl text-gray-300 mb-6 sm:mb-10 max-w-3xl mx-auto px-4">
-          DevTinder helps developers connect, collaborate, and grow together —
+          DevConnect helps developers connect, collaborate, and grow together —
           find teammates for projects, mentors, or coding buddies worldwide.
         </p>
         <button

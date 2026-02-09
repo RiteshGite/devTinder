@@ -37,11 +37,11 @@ const Navbar = () => {
         >
           <div className="avatar">
             <div className="ring-primary ring-offset-base-100 w-6 sm:w-7 rounded-full ring-2 ring-offset-2">
-              <img src="/DevLogo.png" alt="DevTinder Logo" />
+              <img src="/DevLogo.png" alt="DevConnect Logo" />
             </div>
           </div>
           <h2 className="text-lg sm:text-2xl font-bold tracking-tight">
-            Dev<span className="text-primary">Tinder</span>
+            Dev<span className="text-primary">Connect</span>
           </h2>
         </Link>
       </div>

@@ -64,7 +64,7 @@ const Login = () => {
               </h2>
               <p className="text-sm sm:text-base text-base-content/60 mt-1">
                 {isSignUpForm
-                  ? "Join DevTinder and start connecting"
+                  ? "Join DevConnect and start connecting"
                   : "Login to continue your journey"}
               </p>
             </div>
