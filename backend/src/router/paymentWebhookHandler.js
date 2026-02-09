@@ -1,8 +1,15 @@
 const Payment = require("../models/payment");
 const stripe = require("../config/stripe");
 const { MEMBERSHIP_PLANS } = require("../utils/constants");
+const User = require("../models/user");
 
-const paymentWebHookHandler = async (req, res) => {
+const addMonths = (baseDate, months) => {
+    const d = new Date(baseDate);
+    d.setMonth(d.getMonth() + months);
+    return d;
+};
+
+const paymentWebhookHandler = async (req, res) => {
     const sig = req.headers["stripe-signature"];
     let event;
 
@@ -22,36 +29,62 @@ const paymentWebHookHandler = async (req, res) => {
 
     const session = event.data.object;
 
-    if (!session.metadata || !session.metadata.membership_type) {
+    const planType = session.metadata?.membership_type;
+    const userId = session.metadata?.userId;
+
+    if (!planType || !userId) {
         return res.json({ received: true });
     }
 
-    const planType = session.metadata.membership_type;
     const plan = MEMBERSHIP_PLANS[planType];
-
     if (!plan) {
         return res.json({ received: true });
     }
 
     const durationInMonths = parseInt(plan.period, 10);
-    const expiryDate = new Date();
-    expiryDate.setMonth(expiryDate.getMonth() + durationInMonths);
 
-    await Payment.findOneAndUpdate(
+    // ================= PAYMENT UPDATE =================
+    const payment = await Payment.findOneAndUpdate(
         {
             orderId: session.id,
-            status: { $ne: "completed" } 
+            status: { $ne: "completed" },
         },
         {
             $set: {
                 paymentId: session.payment_intent,
                 status: "completed",
-                "notes.expiryDate": expiryDate
-            }
-        }
+            },
+        },
+        { new: true }
     );
 
-    res.json({ received: true });
+    // already processed webhook
+    if (!payment) {
+        return res.json({ received: true });
+    }
+
+    // ================= MEMBERSHIP LOGIC =================
+    const user = await User.findById(userId);
+    if (!user) {
+        return res.json({ received: true });
+    }
+
+    const oldExpireDate = user.memberships[planType].expiresAt;
+    const now = new Date();
+
+    const baseDate =
+        oldExpireDate && oldExpireDate > now
+            ? oldExpireDate
+            : now;
+
+    const newExpireDate = addMonths(baseDate, durationInMonths);
+
+    user.memberships[planType].expiresAt = newExpireDate;
+    user.memberships[planType].active = true;
+    
+    await user.save();
+
+    return res.json({ received: true });
 };
 
-module.exports = paymentWebHookHandler;
+module.exports = paymentWebhookHandler;

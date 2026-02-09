@@ -3,6 +3,7 @@ import { BASE_URL } from "../utils/constants";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { removeFromFeed } from "../utils/feedSlice";
+import { CheckCheck } from "lucide-react";
 
 const UserCard = ({ user }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const UserCard = ({ user }) => {
     about,
     photoUrl,
     skills = [],
+    isBlueTick
   } = user;
 
   const handleButtonClick = async (status, _id) => {
@@ -46,7 +48,12 @@ const UserCard = ({ user }) => {
       <div className="card-body p-4 sm:p-6">
         <h2 className="card-title text-lg sm:text-xl">
           {firstName} {lastName}
-          <div className="badge badge-secondary">{age}</div>
+          {isBlueTick && (
+            <span>
+              <CheckCheck />
+            </span>
+          )}
+          {age && <div className="badge badge-secondary">{age}</div>}
         </h2>
 
         <p className="text-xs sm:text-sm capitalize text-gray-300">{gender}</p>

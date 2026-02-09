@@ -68,6 +68,16 @@ const userSchema = mongoose.Schema({
             validator: arr => arr.length <= 20,
             message: "Maximum 20 skills allowed"
         }
+    },
+    memberships: {
+        Silver: {
+            expiresAt: { type: Date, default: null },
+            active: { type: Boolean, default: false },
+        },
+        Gold: {
+            expiresAt: { type: Date, default: null },
+            active: { type: Boolean, default: false },
+        },
     }
 }, {
     timestamps: true
