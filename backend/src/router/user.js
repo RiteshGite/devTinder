@@ -70,6 +70,7 @@ userRouter.get("/user/connections", userAuth, async (req, res, next) => {
         next(err);
     }
 })
+
 userRouter.get("/feed", userAuth, async (req, res, next) => {
     const USER_SAFE_FIELD =
         "firstName lastName gender age photoUrl about skills memberships";
@@ -161,5 +162,78 @@ userRouter.get("/feed", userAuth, async (req, res, next) => {
     }
 });
 
+userRouter.get("/user/smart-matches", userAuth, async (req, res, next) => {
+    try {
+        console.log("hello");
+        const loggedInUserId = req.user._id;
+
+        // 1️⃣ Get logged-in user skills
+        const me = await User.findById(loggedInUserId).select("skills");
+        const mySkills = (me.skills || []).map(s => s.toLowerCase());
+
+        console.log("myskills = ", mySkills);
+
+        // 2️⃣ Find users already interacted with (hide them)
+        const requests = await ConnectionRequest.find({
+            $or: [
+                { fromUserId: loggedInUserId },
+                { toUserId: loggedInUserId }
+            ]
+        }).select("fromUserId toUserId");
+
+        const hiddenUserIds = requests.map(r =>
+            r.fromUserId.equals(loggedInUserId) ? r.toUserId : r.fromUserId
+        );
+
+        // 3️⃣ Fetch remaining users (all card-required fields)
+        const users = await User.find({
+            _id: { $nin: hiddenUserIds, $ne: loggedInUserId }
+        }).select(
+            "firstName lastName age gender about photoUrl skills memberships"
+        );
+
+        // 4️⃣ Skill match calculation (Jaccard similarity)
+        const getMatchScore = (mySkills, userSkills) => {
+            const a = new Set(mySkills);
+            const b = new Set((userSkills || []).map(s => s.toLowerCase()));
+
+            const common = [...a].filter(skill => b.has(skill));
+            const total = new Set([...a, ...b]);
+
+            if (total.size === 0) return 0;
+            return Math.round((common.length / total.size) * 100);
+        };
+
+        // 5️⃣ Build final response for cards
+        const matches = users
+            .map(user => {
+                const matchScore = getMatchScore(mySkills, user.skills);
+
+                return {
+                    _id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    age: user.age,
+                    gender: user.gender,
+                    about: user.about,
+                    photoUrl: user.photoUrl,
+                    skills: user.skills,
+                    memberships: user.memberships,
+                    matchScore, // ⭐ IMPORTANT (UI uses this)
+                };
+            })
+            .filter(u => u.matchScore > 0) // optional: hide 0% matches
+            .sort((a, b) => b.matchScore - a.matchScore); // highest first
+
+        return res.status(200).json({
+            success: true,
+            totalMatches: matches.length,
+            matches,
+        });
+
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = userRouter;

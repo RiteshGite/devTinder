@@ -1,4 +1,4 @@
-import { User, Users, Inbox, LogOut, Home, ChessQueen } from "lucide-react";
+import { User, Users, Inbox, LogOut, Home, ChessQueen, Brain} from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../utils/userSlice";
@@ -126,6 +126,16 @@ const Navbar = () => {
                 >
                   <User className="w-4 h-4 sm:w-5 sm:h-5" />
                   Profile
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/smart-matches"
+                  className="hover:scale-105 transition-transform duration-200"
+                >
+                  <Brain className="w-4 h-4 sm:w-5 sm:h-5" />
+                  Smart Matches
                 </Link>
               </li>
 
