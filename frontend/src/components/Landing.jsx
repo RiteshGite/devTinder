@@ -1,7 +1,7 @@
 import { Users, MessageCircle, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import AIChatbot from "./AIChatBot";
+import AIChatbot from "./AIChatbot";
 
 const Landing = () => {
   const navigate = useNavigate();
