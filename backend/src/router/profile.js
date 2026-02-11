@@ -66,9 +66,6 @@ profileRouter.patch("/profile/password", userAuth, async (req, res, next) => {
 
 profileRouter.get("/profile/targetUser/:id", userAuth, async (req, res) => {
     try {
-
-        console.log("You are in the /user/:id api");
-
         const userId = req.params.id;
 
         const user = await User.findById(userId)

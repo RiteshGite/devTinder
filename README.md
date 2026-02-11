@@ -20,7 +20,6 @@ A modern full-stack platform that brings developers together through intelligent
 - [Overview](#-overview)
 - [Live Deployments](#-live-deployments)
 - [Features](#-features)
-- [Screenshots](#-screenshots)
 - [Tech Stack](#-tech-stack)
 - [Installation](#-installation)
 - [Project Structure](#-project-structure)
@@ -64,30 +63,7 @@ A modern full-stack platform that brings developers together through intelligent
 - 💳 **Membership Plans** - Silver (₹499/3mo) & Gold (₹999/6mo)
 - ⭐ **Profile Priority Boost** - Silver members get priority in feed
 - 🏆 **Highest Priority** - Gold members appear first in all feeds
-- 👑 **Verification Badges** - Silver/Gold crown badges and highlights
-- 📛 **DevConnect Badges** - Exclusive Silver and Gold badges on profiles
-
----
-
-## 📸 Screenshots
-
-### Landing Page
-![Landing Page](screenshots/landing.png)
-
-### User Feed
-![User Feed](screenshots/feed.png)
-
-### Smart Matches
-![Smart Matches](screenshots/smart-matches.png)
-
-### Real-time Chat
-![Chat Interface](screenshots/chat.png)
-
-### Membership Plans
-![Membership](screenshots/membership.png)
-
-### Mobile View
-![Mobile View](screenshots/mobile.png)
+- 👑 **DevConnect Badges** - Silver/Gold crown badges and highlights in Feed
 
 ---
 
@@ -266,16 +242,16 @@ VITE_BACKEND_URL=http://localhost:7777
 
 ```
 DevConnect/
-├── backend/          # Node.js + Express API
-├── frontend/         # React + Vite
-├── docs/            # Documentation
-└── README.md        # This file
+├── backend/                           # Node.js + Express API
+├── frontend/                          # React + Vite
+├── aws-deployment.guide.md            # aws guide
+└── README.md                          # This file
 ```
 
 📖 **Detailed Documentation:**
 - [Backend README](backend/README.md) - API endpoints, models, architecture
 - [Frontend README](frontend/README.md) - Components, state management, routing
-- [AWS Deployment Guide](docs/AWS_DEPLOYMENT.md) - Full deployment walkthrough
+- [AWS Deployment Guide](aws-deployment.guide.md) - Full deployment walkthrough
 
 ---
 
