@@ -1,311 +1,305 @@
-# 🚀 DevTinder – Full Stack Application
+# 🚀 DevConnect - Developer Networking Platform
 
-## 🌐 Live URL
-**https://developerstinder.duckdns.org**
+<div align="center">
 
----
+![DevConnect Banner](https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=300&fit=crop)
 
-## 🚀 AWS Deployment Guide
-**React + Node.js + Nginx + DuckDNS + SSL (Let's Encrypt)**
+**Connect. Collaborate. Code Together.**
 
-This guide explains step-by-step how to deploy a full-stack application on AWS EC2 with:
-- ✅ Custom domain name (DuckDNS – free)
-- ✅ HTTPS / SSL certificate (Let's Encrypt)
-- ✅ Nginx reverse proxy
-- ✅ PM2 for backend process management
+A modern full-stack platform that brings developers together through intelligent matching, real-time chat, and professional networking.
 
----
+[![Live Demo](https://img.shields.io/badge/Live-AWS_Deployment-success?style=for-the-badge&logo=amazon-aws)](https://developerstinder.duckdns.org)
+[![Vercel Demo](https://img.shields.io/badge/Live-Vercel-black?style=for-the-badge&logo=vercel)](https://dev-tinder-neon-pi.vercel.app)
 
-## 🧾 Prerequisites
-- AWS account
-- GitHub repository (frontend + backend)
-- Node.js app (React frontend + Express backend)
+</div>
 
 ---
 
-## 1️⃣ Sign up on AWS
-1. Go to https://aws.amazon.com
-2. Create an account
-3. Login to AWS Console
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Live Deployments](#-live-deployments)
+- [Features](#-features)
+- [Screenshots](#-screenshots)
+- [Tech Stack](#-tech-stack)
+- [Installation](#-installation)
+- [Project Structure](#-project-structure)
+- [Author](#-author)
 
 ---
 
-## 2️⃣ Launch EC2 Instance
-1. Go to **EC2 → Launch Instance**
-2. Choose:
-   - **AMI:** Ubuntu 22.04 LTS
-   - **Instance Type:** t2.micro (free tier)
-3. Create / select **Key Pair**
-4. **Security Group:**
-   - Allow **SSH (22)**
-   - Allow **HTTP (80)**
-   - Allow **HTTPS (443)**
-5. Launch instance
+## 🌟 Overview
+
+**DevConnect** is a professional networking platform designed exclusively for developers. It uses **skill-based matching algorithms** to connect developers with similar tech stacks, real-time chat for instant communication, and a membership system for enhanced visibility.
 
 ---
 
-## 3️⃣ Connect to EC2 Instance
-From AWS EC2 → Connect → SSH
-```bash
-ssh -i "your-key.pem" ubuntu@<EC2_PUBLIC_IP>
-```
+## 🌐 Live Deployments
 
-Update system:
-```bash
-sudo apt update && sudo apt upgrade -y
-```
+### **Production (AWS EC2)**
+🔗 **https://developerstinder.duckdns.org**
+- Full-stack deployment with SSL
+- Nginx reverse proxy + PM2
+- Custom domain via DuckDNS
 
----
-
-## 4️⃣ Install Required Software
-
-### **Node.js**
-```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install nodejs -y
-node -v
-npm -v
-```
-
-### **Git**
-```bash
-sudo apt install git -y
-```
-
-### **Nginx**
-```bash
-sudo apt install nginx -y
-sudo systemctl start nginx
-sudo systemctl enable nginx
-```
-
-### **PM2**
-```bash
-sudo npm install -g pm2
-```
+### **Alternative (Vercel + Render)**
+🔗 **https://dev-tinder-neon-pi.vercel.app**
+- Frontend on Vercel
+- Backend on Render
 
 ---
 
-## 5️⃣ Clone GitHub Repository
-```bash
-git clone https://github.com/<username>/<repo>.git
-cd <repo>
-```
+## ✨ Features
 
-**Project structure example:**
-```
-devTinder/
- ├── frontend/
- └── backend/
-```
+### **Core Features**
+- 🔐 **Secure Authentication** - JWT-based auth with HTTP-only cookies
+- 👤 **Profile Management** - Customizable developer profiles with skills
+- 🎯 **Smart Matching** - Skill-based matching using Jaccard similarity algorithm
+- 🤝 **Connection System** - Send/receive connection requests
+- 💬 **Real-time Chat** - Socket.IO powered instant messaging with online status
+- 🔍 **Advanced Search** - Search users by name with pagination
+- 🤖 **AI Assistant** - Google Gemini powered chatbot for platform help
+
+### **Premium Features**
+- 💳 **Membership Plans** - Silver (₹499/3mo) & Gold (₹999/6mo)
+- ⭐ **Profile Priority Boost** - Silver members get priority in feed
+- 🏆 **Highest Priority** - Gold members appear first in all feeds
+- 👑 **Verification Badges** - Silver/Gold crown badges and highlights
+- 📛 **DevConnect Badges** - Exclusive Silver and Gold badges on profiles
 
 ---
 
-## 6️⃣ Backend Setup
+## 📸 Screenshots
+
+### Landing Page
+![Landing Page](screenshots/landing.png)
+
+### User Feed
+![User Feed](screenshots/feed.png)
+
+### Smart Matches
+![Smart Matches](screenshots/smart-matches.png)
+
+### Real-time Chat
+![Chat Interface](screenshots/chat.png)
+
+### Membership Plans
+![Membership](screenshots/membership.png)
+
+### Mobile View
+![Mobile View](screenshots/mobile.png)
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+### **Frontend Technologies**
+
+<table>
+<tr>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="60" height="60" alt="React"/>
+<br><b>React 18</b>
+</td>
+<td align="center" width="150">
+<img src="https://vitejs.dev/logo.svg" width="60" height="60" alt="Vite"/>
+<br><b>Vite</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" width="60" height="60" alt="Redux"/>
+<br><b>Redux Toolkit</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="60" height="60" alt="Tailwind"/>
+<br><b>Tailwind CSS</b>
+</td>
+</tr>
+<tr>
+<td align="center" width="150">
+<img src="https://raw.githubusercontent.com/saadeghi/daisyui-images/master/images/daisyui-logo/favicon-192.png" width="60" height="60" alt="DaisyUI"/>
+<br><b>DaisyUI</b>
+</td>
+<td align="center" width="150">
+<img src="https://socket.io/images/logo.svg" width="60" height="60" alt="Socket.IO"/>
+<br><b>Socket.IO Client</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/axios/axios-plain.svg" width="60" height="60" alt="Axios"/>
+<br><b>Axios</b>
+</td>
+<td align="center" width="150">
+<img src="https://reactrouter.com/_brand/react-router-stacked-color-inverted.svg" width="60" height="60" alt="React Router"/>
+<br><b>React Router</b>
+</td>
+</tr>
+</table>
+
+### **Backend Technologies**
+
+<table>
+<tr>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="60" height="60" alt="Node.js"/>
+<br><b>Node.js</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" width="60" height="60" alt="Express"/>
+<br><b>Express.js</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" width="60" height="60" alt="MongoDB"/>
+<br><b>MongoDB</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongoose/mongoose-original.svg" width="60" height="60" alt="Mongoose"/>
+<br><b>Mongoose</b>
+</td>
+</tr>
+<tr>
+<td align="center" width="150">
+<img src="https://socket.io/images/logo.svg" width="60" height="60" alt="Socket.IO"/>
+<br><b>Socket.IO Server</b>
+</td>
+<td align="center" width="150">
+<img src="https://www.vectorlogo.zone/logos/stripe/stripe-ar21.svg" width="80" height="60" alt="Stripe"/>
+<br><b>Stripe</b>
+</td>
+<td align="center" width="150">
+<img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" width="60" height="60" alt="Gemini"/>
+<br><b>Gemini AI</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.worldvectorlogo.com/logos/jwt-3.svg" width="60" height="60" alt="JWT"/>
+<br><b>JWT</b>
+</td>
+</tr>
+</table>
+
+### **DevOps & Deployment**
+
+<table>
+<tr>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width="60" height="60" alt="AWS"/>
+<br><b>AWS EC2</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" width="60" height="60" alt="Nginx"/>
+<br><b>Nginx</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pm2/pm2-original.svg" width="60" height="60" alt="PM2"/>
+<br><b>PM2</b>
+</td>
+<td align="center" width="150">
+<img src="https://www.vectorlogo.zone/logos/letsencrypt/letsencrypt-icon.svg" width="60" height="60" alt="Let's Encrypt"/>
+<br><b>Let's Encrypt</b>
+</td>
+</tr>
+<tr>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" width="60" height="60" alt="Vercel"/>
+<br><b>Vercel</b>
+</td>
+<td align="center" width="150">
+<img src="https://www.vectorlogo.zone/logos/render/render-icon.svg" width="60" height="60" alt="Render"/>
+<br><b>Render</b>
+</td>
+<td align="center" width="150">
+<img src="https://www.svgrepo.com/show/331589/duckduckgo.svg" width="60" height="60" alt="DuckDNS"/>
+<br><b>DuckDNS</b>
+</td>
+<td align="center" width="150">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ubuntu/ubuntu-plain.svg" width="60" height="60" alt="Ubuntu"/>
+<br><b>Ubuntu 22.04</b>
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 💻 Installation
+
+### **Prerequisites**
+- Node.js 18+
+- MongoDB (local or Atlas)
+
+### **Backend Setup**
 ```bash
 cd backend
 npm install
+# Configure .env file
+npm run dev
 ```
 
-**Create .env:**
+### **Frontend Setup**
 ```bash
-nano .env
-```
-
-**Example:**
-```
-PORT=7777
-MONGO_URI=your_mongodb_url
-JWT_SECRET_KEY=your_secret
-NODE_ENV=production
-```
-
-**Start backend:**
-```bash
-pm2 start src/app.js --name backend
-pm2 save
-```
-
----
-
-## 7️⃣ Frontend Setup
-```bash
-cd ../frontend
+cd frontend
 npm install
+# Configure .env file
+npm run dev
 ```
 
-**Create .env.production:**
-```bash
-nano .env.production
-```
-```
-VITE_BACKEND_URL=http://your-domain/api
-```
+### **Environment Variables**
 
-**Build frontend:**
-```bash
-npm run build
+**Backend (.env):**
+```env
+MONGO_URI=your_mongodb_uri
+JWT_SECRET_KEY=your_secret
+STRIPE_SECRET_KEY=your_stripe_key
+GEMINI_API_KEY=your_gemini_key
+FRONTEND_URL=http://localhost:5173
 ```
 
-**Copy build to Nginx:**
-```bash
-sudo rm -rf /var/www/html/*
-sudo cp -r dist/* /var/www/html/
-```
-
----
-
-## 8️⃣ Configure DuckDNS (Free Domain)
-1. Go to https://www.duckdns.org
-2. Login
-3. Create subdomain (example: `developerstinder.duckdns.org`)
-4. Set current IP = **EC2 Public IP**
-
-**Test:**
-```bash
-ping developerstinder.duckdns.org
+**Frontend (.env):**
+```env
+VITE_BACKEND_URL=http://localhost:7777
 ```
 
 ---
 
-## 9️⃣ Configure Nginx (Reverse Proxy)
-```bash
-sudo nano /etc/nginx/sites-available/default
+## 📁 Project Structure
+
 ```
-```nginx
-server {
-    listen 80;
-    server_name developerstinder.duckdns.org;
-
-    root /var/www/html;
-    index index.html;
-
-    location /api/ {
-        proxy_pass http://localhost:7777/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-    }
-
-    location / {
-        try_files $uri /index.html;
-    }
-}
+DevConnect/
+├── backend/          # Node.js + Express API
+├── frontend/         # React + Vite
+├── docs/            # Documentation
+└── README.md        # This file
 ```
 
-**Restart Nginx:**
-```bash
-sudo nginx -t
-sudo systemctl reload nginx
-```
+📖 **Detailed Documentation:**
+- [Backend README](backend/README.md) - API endpoints, models, architecture
+- [Frontend README](frontend/README.md) - Components, state management, routing
+- [AWS Deployment Guide](docs/AWS_DEPLOYMENT.md) - Full deployment walkthrough
 
 ---
 
-## 🔐 10️⃣ SSL Certificate (Let's Encrypt via acme.sh)
+## 👨‍💻 Author
 
-### **Install acme.sh**
-```bash
-curl https://get.acme.sh | sh
-source ~/.bashrc
-```
+**Ritesh Gite**  
+Full Stack Developer | MERN Stack Specialist
 
-### **Set DuckDNS credentials**
-```bash
-export DuckDNS_Token="YOUR_DUCKDNS_TOKEN"
-export DuckDNS_Domain="developerstinder"
-```
+<div align="center">
 
-### **Issue certificate**
-```bash
-~/.acme.sh/acme.sh --issue \
-  --dns dns_duckdns \
-  -d developerstinder.duckdns.org
-```
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/RiteshGite)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ritesh-gite)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:riteshgite2005@gmail.com)
 
-### **Install certificate**
-```bash
-sudo mkdir -p /home/ubuntu/ssl
-~/.acme.sh/acme.sh --install-cert \
-  -d developerstinder.duckdns.org \
-  --key-file /home/ubuntu/ssl/privkey.pem \
-  --fullchain-file /home/ubuntu/ssl/fullchain.pem \
-  --reloadcmd "sudo systemctl reload nginx"
-```
+</div>
 
 ---
 
-## 🔒 11️⃣ Enable HTTPS in Nginx
+<div align="center">
 
-**Edit Nginx:**
-```bash
-sudo nano /etc/nginx/sites-available/default
-```
+**⭐ If you found this project helpful, please give it a star!**
 
-**Add SSL:**
-```nginx
-server {
-    listen 443 ssl;
-    server_name developerstinder.duckdns.org;
+**Made with ❤️ by Ritesh Gite**
 
-    ssl_certificate /home/ubuntu/ssl/fullchain.pem;
-    ssl_certificate_key /home/ubuntu/ssl/privkey.pem;
+![Thanks](https://img.shields.io/badge/Thank_You-For_Visiting-blue?style=for-the-badge)
 
-    root /var/www/html;
-    index index.html;
-
-    location /api/ {
-        proxy_pass http://localhost:7777/;
-        proxy_set_header Host $host;
-    }
-
-    location / {
-        try_files $uri /index.html;
-    }
-}
-```
-
-**Reload:**
-```bash
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
----
-
-## 12️⃣ Update Frontend Backend URL
-```bash
-nano frontend/.env.production
-```
-```
-VITE_BACKEND_URL=https://developerstinder.duckdns.org/api
-```
-
-**Rebuild frontend:**
-```bash
-npm run build
-sudo rm -rf /var/www/html/*
-sudo cp -r dist/* /var/www/html/
-```
-
----
-
-## ✅ Final Check
-1. Open browser: **https://developerstinder.duckdns.org**
-2. SSL 🔒 should be visible
-3. Login, API, cookies all working
-
----
-
-## 🧠 Key Learnings
-- ✅ Always use `path: "/"` for auth cookies
-- ✅ `sameSite: "lax"` works best for same-origin
-- ✅ Nginx must proxy `/api` correctly
-- ✅ Frontend build must be copied to `/var/www/html`
-- ✅ HTTPS required for secure cookies
-
----
-
-## 🏁 Done 🎉
-**Production deployment complete**  
-**AWS + Domain + SSL + React + Node — all live**
+</div>
