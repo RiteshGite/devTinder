@@ -34,7 +34,7 @@ const Navbar = () => {
       dispatch(removeConnections());
       dispatch(removeRequests());
       toast.success("Logged out successfully");
-      navigate("/login", { replace: true });
+      navigate("/", { replace: true });
     } catch (err) {
       toast.error("Something went wrong!");
     }
